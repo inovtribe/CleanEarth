@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -28,32 +27,56 @@ class MapSampleState extends State<MapSample> {
     zoom: 14.4746,
   );
 
-  static final CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
+  List<LatLng> _points = [];
+  List<Marker> mymarkers = <Marker>[
+    new Marker(markerId: MarkerId('1'), position: _kGooglePlex.target)
+  ];
+
+  Set<Polyline> _drawAreaPolygon = new Set.from([]);
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: GoogleMap(
-        mapType: MapType.hybrid,
-        initialCameraPosition: _kGooglePlex,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-      ),
+      body: Stack(children: <Widget>[
+        GoogleMap(
+          mapType: MapType.hybrid,
+          initialCameraPosition: _kGooglePlex,
+          onMapCreated: (GoogleMapController controller) {
+            _controller.complete(controller);
+          },
+          onCameraMove: _createCleanupArea,
+          polylines: _drawAreaPolygon,
+          markers: Set<Marker>.from(mymarkers),
+        ),
+        Container(
+          child: Icon(Icons.pin_drop),
+        )
+      ]),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: _goToTheLake,
-        label: Text('To the lake!'),
-        icon: Icon(Icons.directions_boat),
+        onPressed: _resetDrawArea,
+        label: Text('Reset'),
+        icon: Icon(Icons.refresh),
       ),
     );
   }
 
-  Future<void> _goToTheLake() async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
+  Future<void> _resetDrawArea() async {
+    setState(() {
+      _points.add(_points[0]);
+    });
+    _points = [];
+  }
+
+  void _createCleanupArea(CameraPosition position) {
+    _points.add(position.target);
+    setState(() {
+      _drawAreaPolygon.add(Polyline(
+        polylineId: PolylineId("1"),
+        width: 3,
+        color: Colors.amber,
+        // fillColor: Color.fromRGBO(0, 66, 42, 0.3),
+        points: _points,
+      ));
+    });
   }
 }
