@@ -16,7 +16,7 @@ class HomeScreenState extends State<HomeScreen> {
     zoom: 14.4746,
   );
 
-  Set<Polyline> _drawAreaPolyline = new Set.from([]);
+  Set<Polyline> _polylines = new Set.from([]);
   List<LatLng> _points = [];
 
   bool _enableDraw = false;
@@ -25,16 +25,36 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      drawer: Drawer(
+        child: Center(
+          child: Text("Drawer"),
+        ),
+      ),
       body: Stack(children: <Widget>[
         GoogleMap(
-          mapType: MapType.hybrid,
+          mapType: MapType.terrain,
           initialCameraPosition: _kGooglePlex,
           onMapCreated: (GoogleMapController controller) {
             _controller.complete(controller);
           },
+          myLocationButtonEnabled: false,
           onCameraMove: _createCleanupArea,
-          polylines: _drawAreaPolyline,
+          polylines: _polylines,
         ),
+        Builder(
+          builder: (context) => Positioned(
+            left: 10,
+            top: 20,
+            child: IconButton(
+              icon: Icon(
+                Icons.menu,
+              ),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
+          ),
+        ),
+        _buildFloatingActionButtons(true),
+        _buildFloatingActionButtons(false),
         Center(
           child: Icon(
             Icons.pin_drop,
@@ -43,25 +63,6 @@ class HomeScreenState extends State<HomeScreen> {
           ),
         )
       ]),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Home'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.event),
-            title: Text('Create Event'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.refresh),
-            title: Text('Reset'),
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.lightBlueAccent,
-        onTap: _onItemTapped,
-      ),
     );
   }
 
@@ -76,7 +77,7 @@ class HomeScreenState extends State<HomeScreen> {
     if (_enableDraw) {
       _points.add(position.target);
       setState(() {
-        _drawAreaPolyline.add(Polyline(
+        _polylines.add(Polyline(
           polylineId: PolylineId("1"),
           width: 3,
           color: Colors.amberAccent,
@@ -97,5 +98,26 @@ class HomeScreenState extends State<HomeScreen> {
 
   void _createEvent() {
     _enableDraw = !_enableDraw;
+  }
+
+  _buildFloatingActionButtons(bool isLeft) {
+    return Container(
+      padding: EdgeInsets.all(10),
+      child: isLeft
+          ? Align(
+              alignment: Alignment.bottomLeft,
+              child: FloatingActionButton(
+                child: Icon(Icons.event),
+                onPressed: () {},
+              ),
+            )
+          : Align(
+              alignment: Alignment.bottomRight,
+              child: FloatingActionButton(
+                child: Icon(Icons.report),
+                onPressed: () {},
+              ),
+            ),
+    );
   }
 }
