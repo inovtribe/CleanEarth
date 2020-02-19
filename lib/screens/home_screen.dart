@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:timwan/models/main_app_state.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -16,11 +17,10 @@ class HomeScreenState extends State<HomeScreen> {
     zoom: 14.4746,
   );
 
+  MainAppState _appState = MainAppState.StartState;
+
   Set<Polyline> _polylines = new Set.from([]);
   List<LatLng> _points = [];
-
-  bool _enableDraw = false;
-  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +53,16 @@ class HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        _buildFloatingActionButtons(true),
-        _buildFloatingActionButtons(false),
+        _buildFloatingActionButtons(true, () {
+          setState(() {
+            _appState = MainAppState.CreateEventState;
+          });
+        }),
+        _buildFloatingActionButtons(false, () {
+          setState(() {
+            _appState = MainAppState.CreateReportState;
+          });
+        }),
         Center(
           child: Icon(
             Icons.pin_drop,
@@ -66,58 +74,31 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<void> _resetDrawArea() async {
-    setState(() {
-      // _points.add(_points[0]);
-      _points.removeRange(0, _points.length);
-    });
-  }
-
   void _createCleanupArea(CameraPosition position) {
-    if (_enableDraw) {
+    if (_appState == MainAppState.CreateEventState) {
       _points.add(position.target);
       setState(() {
         _polylines.add(Polyline(
           polylineId: PolylineId("1"),
           width: 3,
           color: Colors.amberAccent,
-          // fillColor: Color.fromRGBO(0, 66, 42, 0.3),
           points: _points,
         ));
       });
     }
   }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-      if (index == 2) _resetDrawArea();
-      if (index == 1) _createEvent();
-    });
-  }
+  Widget _buildFloatingActionButtons(bool isLeft, Function onTap) {
+    if (_appState != MainAppState.StartState) return Container();
 
-  void _createEvent() {
-    _enableDraw = !_enableDraw;
-  }
-
-  _buildFloatingActionButtons(bool isLeft) {
     return Container(
-      padding: EdgeInsets.all(10),
-      child: isLeft
-          ? Align(
-              alignment: Alignment.bottomLeft,
-              child: FloatingActionButton(
-                child: Icon(Icons.event),
-                onPressed: () {},
-              ),
-            )
-          : Align(
-              alignment: Alignment.bottomRight,
-              child: FloatingActionButton(
-                child: Icon(Icons.report),
-                onPressed: () {},
-              ),
-            ),
-    );
+        padding: EdgeInsets.all(10),
+        child: Align(
+          alignment: isLeft ? Alignment.bottomLeft : Alignment.bottomRight,
+          child: FloatingActionButton(
+            child: isLeft ? Icon(Icons.event) : Icon(Icons.report),
+            onPressed: onTap,
+          ),
+        ));
   }
 }
