@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:timwan/models/main_app_state.dart';
+import 'package:provider/provider.dart';
+import 'package:timwan/models/main_event_details.dart';
+import 'package:timwan/widgets/create_event_start.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -17,13 +20,10 @@ class HomeScreenState extends State<HomeScreen> {
     zoom: 14.4746,
   );
 
-  MainAppState _appState = MainAppState.StartState;
-
-  Set<Polyline> _polylines = new Set.from([]);
-  List<LatLng> _points = [];
-
   @override
   Widget build(BuildContext context) {
+    final mainAppDetails = Provider.of<MainAppDetails>(context);
+
     return new Scaffold(
       drawer: Drawer(
         child: Center(
@@ -38,8 +38,8 @@ class HomeScreenState extends State<HomeScreen> {
             _controller.complete(controller);
           },
           myLocationButtonEnabled: false,
-          onCameraMove: _createCleanupArea,
-          polylines: _polylines,
+          onCameraMove: (position) => mainAppDetails.addPoint(position.target),
+          polylines: mainAppDetails.polylines,
         ),
         Builder(
           builder: (context) => Positioned(
@@ -53,52 +53,34 @@ class HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        _buildFloatingActionButtons(true, () {
-          setState(() {
-            _appState = MainAppState.CreateEventState;
-          });
-        }),
-        _buildFloatingActionButtons(false, () {
-          setState(() {
-            _appState = MainAppState.CreateReportState;
-          });
-        }),
-        Center(
-          child: Icon(
-            Icons.pin_drop,
-            color: Colors.greenAccent,
-            size: 40,
-          ),
-        )
+        _buildBottomSheet(mainAppDetails),
       ]),
     );
   }
 
-  void _createCleanupArea(CameraPosition position) {
-    if (_appState == MainAppState.CreateEventState) {
-      _points.add(position.target);
-      setState(() {
-        _polylines.add(Polyline(
-          polylineId: PolylineId("1"),
-          width: 3,
-          color: Colors.amberAccent,
-          points: _points,
-        ));
-      });
+  Widget _buildBottomSheet(MainAppDetails appDetails) {
+    if (appDetails.appState == MainAppState.CreateEventState) {
+      return CreateEventStart();
+    } else if (appDetails.appState == MainAppState.CreateReportState) {
+      return Container();
     }
-  }
 
-  Widget _buildFloatingActionButtons(bool isLeft, Function onTap) {
-    if (_appState != MainAppState.StartState) return Container();
-
-    return Container(
-        padding: EdgeInsets.all(10),
-        child: Align(
-          alignment: isLeft ? Alignment.bottomLeft : Alignment.bottomRight,
-          child: FloatingActionButton(
-            child: isLeft ? Icon(Icons.event) : Icon(Icons.report),
-            onPressed: onTap,
-          ),
-        ));
+    return SpeedDial(
+      marginRight: 25,
+      marginBottom: 30,
+      animatedIcon: AnimatedIcons.menu_close,
+      children: [
+        SpeedDialChild(
+            child: Icon(Icons.event),
+            label: 'Create a Event',
+            onTap: () {
+              appDetails.appState = MainAppState.CreateEventState;
+            }),
+        SpeedDialChild(
+            child: Icon(Icons.report),
+            label: 'Create a Report',
+            onTap: () => print("Creating a report")),
+      ],
+    );
   }
 }
