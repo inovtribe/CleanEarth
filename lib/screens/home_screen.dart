@@ -25,11 +25,6 @@ class HomeScreenState extends State<HomeScreen> {
     final mainAppDetails = Provider.of<MainAppDetails>(context);
 
     return new Scaffold(
-      drawer: Drawer(
-        child: Center(
-          child: Text("Drawer"),
-        ),
-      ),
       body: Stack(children: <Widget>[
         GoogleMap(
           mapType: MapType.terrain,
@@ -40,18 +35,6 @@ class HomeScreenState extends State<HomeScreen> {
           myLocationButtonEnabled: false,
           onCameraMove: (position) => mainAppDetails.addPoint(position.target),
           polylines: mainAppDetails.polylines,
-        ),
-        Builder(
-          builder: (context) => Positioned(
-            left: 10,
-            top: 20,
-            child: IconButton(
-              icon: Icon(
-                Icons.menu,
-              ),
-              onPressed: () => Scaffold.of(context).openDrawer(),
-            ),
-          ),
         ),
         _buildBottomSheet(mainAppDetails),
       ]),
