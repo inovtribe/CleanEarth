@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:timwan/models/main_event_details.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:timwan/providers/main_event_details.dart';
+import 'package:timwan/widgets/create_event_details.dart';
 
 class CreateEventStart extends StatelessWidget {
   @override
@@ -16,6 +18,7 @@ class CreateEventStart extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 IconButton(
+                  tooltip: 'Back',
                   icon: Icon(Icons.arrow_back),
                   onPressed: () {
                     mainAppDetails.clearPoints();
@@ -27,10 +30,15 @@ class CreateEventStart extends StatelessWidget {
                   child: Container(),
                 ),
                 IconButton(
+                  tooltip: 'Clear',
                   icon: Icon(Icons.clear),
                   onPressed: () => mainAppDetails.clearPoints(),
                 ),
                 IconButton(
+                  tooltip: mainAppDetails.createEventState ==
+                          CreateEventState.DrawState
+                      ? 'Pause Drawing'
+                      : 'Continue Drawing',
                   icon: mainAppDetails.createEventState ==
                           CreateEventState.DrawState
                       ? Icon(Icons.pause)
@@ -40,12 +48,24 @@ class CreateEventStart extends StatelessWidget {
               ],
             ),
           ),
-          Container(
+          Expanded(
             // TODO: fix the position of this widget
             child: Icon(
               Icons.place,
               color: Colors.green,
               size: 40,
+            ),
+          ),
+          SlidingUpPanel(
+            minHeight: 75.0,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(24.0),
+                topRight: Radius.circular(24.0)),
+            panel: Center(
+              child: CreateEventDetails(),
+            ),
+            collapsed: Center(
+              child: Text("Swipe up when done!"),
             ),
           ),
         ],

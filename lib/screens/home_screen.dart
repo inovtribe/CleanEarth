@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:timwan/models/main_event_details.dart';
+import 'package:timwan/providers/main_event_details.dart';
 import 'package:timwan/widgets/create_event_start.dart';
 
 class HomeScreen extends StatefulWidget {
