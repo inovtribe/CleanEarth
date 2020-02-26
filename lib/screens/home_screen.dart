@@ -6,6 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:timwan/providers/main_event_details.dart';
 import 'package:timwan/widgets/create_event_start.dart';
+import 'package:timwan/widgets/create_report.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -45,7 +46,7 @@ class HomeScreenState extends State<HomeScreen> {
     if (appDetails.appState == MainAppState.CreateEventState) {
       return CreateEventStart();
     } else if (appDetails.appState == MainAppState.CreateReportState) {
-      return Container();
+      return CreateReportState();
     }
 
     return SpeedDial(
@@ -62,7 +63,9 @@ class HomeScreenState extends State<HomeScreen> {
         SpeedDialChild(
             child: Icon(Icons.report),
             label: 'Create a Report',
-            onTap: () => print("Creating a report")),
+            onTap: () {
+              appDetails.appState = MainAppState.CreateReportState;
+            }),
       ],
     );
   }
