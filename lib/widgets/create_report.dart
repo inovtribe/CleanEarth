@@ -1,49 +1,91 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-
-// import 'package:provider/provider.dart';
-// import 'package:sliding_up_panel/sliding_up_panel.dart';
-// import 'package:timwan/providers/main_event_details.dart';
-// import 'package:timwan/widgets/create_event_details.dart';
-// import 'package:timwan/screens/home_screen.dart';
-// import 'package:timwan/main.dart';
-enum SingingCharacter { lafayette, jefferson }
+import 'package:provider/provider.dart';
+import 'package:timwan/providers/main_event_details.dart';
 
 class CreateReportState extends StatefulWidget {
   @override
   _CreateReport createState() => _CreateReport();
 }
 
+class Item {
+  const Item(this.name, this.icon);
+  final String name;
+  final Icon icon;
+}
+
 class _CreateReport extends State<CreateReportState> {
   @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //       appBar: AppBar(
-  //         title: Text("Create Report"),
-  //       ),
-  //       body: Container(
-  //           child: Column(
-  //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-  //         children: <Widget>[
-  //           Text("No image is selected"),
-  //         ],
-  //       )));
-  // }
   File _image;
-  int selectedRadio;
+  bool camCheck = false;
+  Item selectedWasteType;
+  Item selectedWasteSize;
+
+  List<Item> wasteType = <Item>[
+    const Item(
+        'Hazardous',
+        Icon(
+          Icons.warning,
+          color: const Color(4290190364),
+        )),
+    const Item(
+        'Recyclable',
+        Icon(
+          Icons.phone,
+          color: const Color(0xFF167F67),
+        )),
+    const Item(
+        'Decomposable',
+        Icon(
+          Icons.sentiment_dissatisfied,
+          color: const Color(0xFF167F67),
+        )),
+  ];
+
+  List<Item> wasteSize = <Item>[
+    const Item(
+        'Small (less than 1 cubic feets.)',
+        Icon(
+          Icons.warning,
+          color: const Color(4290190364),
+        )),
+    const Item(
+        'Medium (not more than half of a trash container.)',
+        Icon(
+          Icons.phone,
+          color: const Color(0xFF167F67),
+        )),
+    const Item(
+        'Large (couple of containers.)',
+        Icon(
+          Icons.sentiment_dissatisfied,
+          color: const Color(0xFF167F67),
+        )),
+  ];
+  bool openCam() {
+    if (_image == null) {
+      getImage();
+      return true;
+    }
+    ;
+    return false;
+  }
+
+  void camOpenInitial() {
+    camCheck = openCam();
+  }
+
+  // File openCamera() {}
 
   //making radio buttons unselected at initial state
+
   @override
   void initState() {
     super.initState();
-    selectedRadio = 0;
-  }
-
-  setSelectedRadio(int val) {
-    setState(() {
-      selectedRadio = val;
-    });
+    if (camCheck != true) {
+      openCam();
+    }
   }
 
   Future getImage() async {
@@ -54,67 +96,120 @@ class _CreateReport extends State<CreateReportState> {
     });
   }
 
+  Future pickImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = image;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Create report'),
-        ),
-        body: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-          Container(
-            height: 320,
-            width: 180,
-            padding: const EdgeInsets.all(8.0),
-            child: _image == null
-                ? Text('No image selected.')
-                : Image.file(_image),
-          ),
-
-          Text("Number of volunteers required to clean the area:- "),
-          // RadioListTile(
-          //   value: 1,
-          //   groupValue: 1,
-          //   title: Text("1-4"),
-          //   onChanged: (val) {
-          //     print("radio tile pressed $val");
-          //   },
-          //   activeColor: Colors.red,
-          // ),
-          Divider(
-            height: 20,
-            color: Colors.green,
-          ),
-          ButtonBar(
-            alignment: MainAxisAlignment.center,
+    final mainAppDetails = Provider.of<MainAppDetails>(context);
+    return SafeArea(
+      child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+        Container(
+          color: Colors.white,
+          child: Row(
             children: <Widget>[
-              Radio(
-                value: 1,
-                groupValue: selectedRadio,
-                activeColor: Colors.green,
-                onChanged: (val) {
-                  setSelectedRadio(val);
+              IconButton(
+                tooltip: 'Back',
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  mainAppDetails.clearPoints();
+                  mainAppDetails.appState = MainAppState.StartState;
                 },
               ),
-              Radio(
-                value: 2,
-                groupValue: selectedRadio,
-                activeColor: Colors.green,
-                onChanged: (val) {
-                  setSelectedRadio(val);
-                },
+              Text("Create Report"),
+              Expanded(
+                child: Container(),
               ),
+              IconButton(
+                tooltip: 'Reload',
+                icon: Icon(Icons.restore_page),
+                onPressed: pickImage,
+              ),
+              IconButton(
+                tooltip: 'Gallery Image',
+                icon: Icon(Icons.photo_album),
+                onPressed: pickImage,
+              ),
+              IconButton(
+                tooltip: 'Pick Image',
+                onPressed: getImage,
+                icon: Icon(Icons.add_a_photo),
+              )
             ],
-          )
-
-          //
-        ]),
-        floatingActionButton: FloatingActionButton(
-          onPressed: getImage,
-          tooltip: 'Pick Image',
-          child: Icon(Icons.add_a_photo),
+          ),
         ),
-      ),
+        Container(
+          height: 320,
+          width: 180,
+          padding: const EdgeInsets.all(8.0),
+          child: _image == null
+              ? Icon(
+                  Icons.error,
+                  size: 90.0,
+                )
+              : Image.file(_image),
+        ),
+        Divider(
+          height: 20,
+          color: Colors.green,
+        ),
+        Text("Type of the Waste Materials:- "),
+        new DropdownButton<Item>(
+          hint: Text("Select item"),
+          value: selectedWasteType,
+          onChanged: (Item Value) {
+            setState(() {
+              selectedWasteType = Value;
+            });
+          },
+          items: wasteType.map((Item wasteType) {
+            return DropdownMenuItem<Item>(
+              value: wasteType,
+              child: Row(
+                children: <Widget>[
+                  wasteType.icon,
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    wasteType.name,
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ],
+              ),
+            );
+          }).toList(),
+        ),
+        Text("Size of the Waste Materials:- "),
+        new DropdownButton<Item>(
+          hint: Text("Select item"),
+          value: selectedWasteSize,
+          isExpanded: true,
+          onChanged: (Item Value) {
+            setState(() {
+              selectedWasteSize = Value;
+            });
+          },
+          items: wasteSize.map((Item wasteSize) {
+            return DropdownMenuItem<Item>(
+              value: wasteSize,
+              // overflow: TextOverflow.ellipsis,
+              child: ListTile(
+                leading: wasteSize.icon,
+                title: Text(
+                  wasteSize.name,
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ]),
     );
   }
 }
