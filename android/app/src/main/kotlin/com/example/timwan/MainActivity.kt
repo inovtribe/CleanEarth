@@ -1,4 +1,4 @@
-package com.example.timwan
+package com.timwan.trash_cleanup_app
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
