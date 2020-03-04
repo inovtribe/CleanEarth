@@ -58,12 +58,11 @@ class CreateEventStart extends StatelessWidget {
           ),
           SlidingUpPanel(
             minHeight: 75.0,
+            maxHeight: 300.0,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(24.0),
                 topRight: Radius.circular(24.0)),
-            panel: Center(
-              child: CreateEventDetails(),
-            ),
+            panelBuilder: (ScrollController sc) => CreateEventDetails(scrollController: sc),
             collapsed: Center(
               child: Text("Swipe up when done!"),
             ),
