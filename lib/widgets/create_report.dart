@@ -3,6 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
 import 'package:timwan/providers/main_event_details.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CreateReportState extends StatefulWidget {
   @override
@@ -100,6 +101,111 @@ class _CreateReport extends State<CreateReportState> {
     });
   }
 
+  Widget _typeWaste() {
+    return RichText(
+      textAlign: TextAlign.center,
+      text: TextSpan(
+          text: 'Type',
+          style: GoogleFonts.portLligatSans(
+            textStyle: Theme.of(context).textTheme.display1,
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
+          ),
+          children: [
+            TextSpan(
+              text: ' of the',
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            TextSpan(
+              text: ' Waste Materials',
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          ]),
+    );
+  }
+
+   Widget _sizeWaste() {
+    return RichText(
+      textAlign: TextAlign.center,
+      text: TextSpan(
+          text: 'Size',
+          style: GoogleFonts.portLligatSans(
+            textStyle: Theme.of(context).textTheme.display1,
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
+          ),
+          children: [
+            TextSpan(
+              text: ' of the',
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            TextSpan(
+              text: ' Waste Materials',
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          ]),
+    );
+  }
+
+   Widget _submitButton() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.symmetric(vertical: 15),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Colors.grey.shade200,
+                offset: Offset(2, 4),
+                blurRadius: 5,
+                spreadRadius: 2)
+          ],
+          gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [Color(0xfffbb448), Color(0xfff7892b)])),
+      child: Text(
+        'Submit',
+        style: TextStyle(fontSize: 20, color: Colors.white),
+      ),
+    );
+  }
+  Widget _divider() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: Row(
+        children: <Widget>[
+          SizedBox(
+            width: 20,
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Divider(
+                thickness: 1,
+              ),
+            ),
+          ),
+        
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Divider(
+                thickness: 1,
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 20,
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final mainAppDetails = Provider.of<MainAppDetails>(context);
@@ -138,26 +244,51 @@ class _CreateReport extends State<CreateReportState> {
               )
             ],
           ),
-        ),
+        ),_divider(),
         Container(
-          height: 320,
+           decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                      color: Colors.grey.shade200,
+                      offset: Offset(2, 4),
+                      blurRadius: 5,
+                      spreadRadius: 2)
+                ],
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Color(0Xff7da9f0), Color(0xffe46b10)])),
+          height: 180,
           width: 180,
           padding: const EdgeInsets.all(8.0),
           child: _image == null
               ? Image(image: AssetImage("assets/placeholder.jpg"))
               : Image.file(_image),
         ),
-        Divider(
-          height: 0,
-          color: Colors.green,
-        ),
+        _divider(),
     Container(
-      color: Colors.green,
+      decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                      color: Colors.grey.shade200,
+                      offset: Offset(2, 4),
+                      blurRadius: 5,
+                      spreadRadius: 2)
+                ],
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Color(0Xff7da9f0), Color(0xffe46b10)])),
      child: Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
-    Text('Type of the Waste Materials:-', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0, backgroundColor: Colors.blue,),textAlign: TextAlign.center,),
+    _typeWaste(),
+                SizedBox(
+                  height: 20,
+                ),
      new DropdownButton<Item>(
           hint: Text("Select item"),
           value: selectedWasteType,
@@ -184,7 +315,10 @@ class _CreateReport extends State<CreateReportState> {
             );
           }).toList(),
         ),
-            Text('Size of the Waste Materials:-', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0, backgroundColor: Colors.blue)),
+            _sizeWaste(),
+                SizedBox(
+                  height: 20,
+                ),
         new DropdownButton<Item>(
           hint: Text("Select item"),
           value: selectedWasteSize,
@@ -208,9 +342,17 @@ class _CreateReport extends State<CreateReportState> {
             );
           }).toList(),
         ),
+       
       ],
       ),
       ),
+      _divider(),
+
+       _submitButton(),
+                    Expanded(
+                      flex: 2,
+                      child: SizedBox(),
+                    ),
      
       ]),
     );

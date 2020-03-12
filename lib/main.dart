@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:timwan/providers/main_event_details.dart';
+import 'package:timwan/screens/home_screen.dart';
 
 import 'src/welcomePage.dart';
 
@@ -10,7 +13,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    return MaterialApp(
+    return MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => MainAppDetails())],
+      child: MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
          primarySwatch: Colors.blue,
@@ -20,6 +25,8 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       home: WelcomePage(),
+      ),
     );
+
   }
 }

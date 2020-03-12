@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_login_signup/src/loginPage.dart';
-import 'package:flutter_login_signup/src/signup.dart';
+import 'package:timwan/src/loginPage.dart';
+import 'package:timwan/src/signup.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -95,21 +95,45 @@ class _WelcomePageState extends State<WelcomePage> {
     return RichText(
       textAlign: TextAlign.center,
       text: TextSpan(
-          text: 'd',
+          text: 'T',
           style: GoogleFonts.portLligatSans(
             textStyle: Theme.of(context).textTheme.display1,
-            fontSize: 30,
+            fontSize: 40,
             fontWeight: FontWeight.w700,
             color: Colors.white,
           ),
           children: [
             TextSpan(
-              text: 'ev',
-              style: TextStyle(color: Colors.black, fontSize: 30),
+              text: 'im',
+              style: TextStyle(color: Colors.black, fontSize: 40),
             ),
             TextSpan(
-              text: 'rnz',
-              style: TextStyle(color: Colors.white, fontSize: 30),
+              text: 'wan',
+              style: TextStyle(color: Colors.white, fontSize: 40),
+            ),
+          ]),
+    );
+  }
+
+   Widget _header() {
+    return RichText(
+      textAlign: TextAlign.center,
+      text: TextSpan(
+          text: 'Super',
+          style: GoogleFonts.portLligatSans(
+            textStyle: Theme.of(context).textTheme.display1,
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            color: Colors.yellow,
+          ),
+          children: [
+            TextSpan(
+              text: ' Trash',
+              style: TextStyle(color: Colors.yellow, fontSize: 20),
+            ),
+            TextSpan(
+              text: ' Clean Up',
+              style: TextStyle(color: Colors.yellow, fontSize: 20),
             ),
           ]),
     );
@@ -134,14 +158,17 @@ class _WelcomePageState extends State<WelcomePage> {
                 gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [Color(0xfffbb448), Color(0xffe46b10)])),
+                    colors: [Color(0Xff4f6b4e), Color(0xffe46b10)])),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 _title(),
                 SizedBox(
-                  height: 80,
+                  height: 20,
+                ),_header(),
+                SizedBox(
+                  height: 20,
                 ),
                 _submitButton(),
                 SizedBox(
