@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:timwan/src/loginPage.dart';
-import 'package:timwan/src/signup.dart';
+import 'package:flutter_login_signup/src/loginPage.dart';
+import 'package:flutter_login_signup/src/signup.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -95,45 +95,21 @@ class _WelcomePageState extends State<WelcomePage> {
     return RichText(
       textAlign: TextAlign.center,
       text: TextSpan(
-          text: 'T',
+          text: 'd',
           style: GoogleFonts.portLligatSans(
             textStyle: Theme.of(context).textTheme.display1,
-            fontSize: 40,
+            fontSize: 30,
             fontWeight: FontWeight.w700,
             color: Colors.white,
           ),
           children: [
             TextSpan(
-              text: 'im',
-              style: TextStyle(color: Colors.black, fontSize: 40),
+              text: 'ev',
+              style: TextStyle(color: Colors.black, fontSize: 30),
             ),
             TextSpan(
-              text: 'wan',
-              style: TextStyle(color: Colors.white, fontSize: 40),
-            ),
-          ]),
-    );
-  }
-
-   Widget _header() {
-    return RichText(
-      textAlign: TextAlign.center,
-      text: TextSpan(
-          text: 'Super',
-          style: GoogleFonts.portLligatSans(
-            textStyle: Theme.of(context).textTheme.display1,
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
-            color: Colors.yellow,
-          ),
-          children: [
-            TextSpan(
-              text: ' Trash',
-              style: TextStyle(color: Colors.yellow, fontSize: 20),
-            ),
-            TextSpan(
-              text: ' Clean Up',
-              style: TextStyle(color: Colors.yellow, fontSize: 20),
+              text: 'rnz',
+              style: TextStyle(color: Colors.white, fontSize: 30),
             ),
           ]),
     );
@@ -165,10 +141,7 @@ class _WelcomePageState extends State<WelcomePage> {
               children: <Widget>[
                 _title(),
                 SizedBox(
-                  height: 20,
-                ),_header(),
-                SizedBox(
-                  height: 20,
+                  height: 80,
                 ),
                 _submitButton(),
                 SizedBox(

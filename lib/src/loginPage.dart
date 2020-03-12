@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:timwan/src/signup.dart';
-import 'package:timwan/screens/home_screen.dart';
+import 'package:flutter_login_signup/src/signup.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:timwan/providers/main_event_details.dart';
-
 
 import 'Widget/bezierContainer.dart';
 
@@ -80,25 +77,9 @@ class _LoginPageState extends State<LoginPage> {
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
               colors: [Color(0xfffbb448), Color(0xfff7892b)])),
-     child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          InkWell(
-            onTap: () {
-               Navigator.push(
-                      context,
-                       MaterialPageRoute(builder: (context) => new HomeScreen()
-                        ));
-            },
-            child: Text(
-              'Login',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600),
-            ),
-          )
-        ],
+      child: Text(
+        'Login',
+        style: TextStyle(fontSize: 20, color: Colors.white),
       ),
     );
   }
@@ -220,7 +201,7 @@ class _LoginPageState extends State<LoginPage> {
     return RichText(
       textAlign: TextAlign.center,
       text: TextSpan(
-          text: 'T',
+          text: 'd',
           style: GoogleFonts.portLligatSans(
             textStyle: Theme.of(context).textTheme.display1,
             fontSize: 30,
@@ -229,11 +210,11 @@ class _LoginPageState extends State<LoginPage> {
           ),
           children: [
             TextSpan(
-              text: 'im',
+              text: 'ev',
               style: TextStyle(color: Colors.black, fontSize: 30),
             ),
             TextSpan(
-              text: 'wan',
+              text: 'rnz',
               style: TextStyle(color: Color(0xffe46b10), fontSize: 30),
             ),
           ]),
