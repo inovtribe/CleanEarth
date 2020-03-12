@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:timwan/src/signup.dart';
 import 'package:timwan/screens/home_screen.dart';
+import 'package:timwan/screens/buttom_navigator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:timwan/providers/main_event_details.dart';
 
@@ -87,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
             onTap: () {
                Navigator.push(
                       context,
-                       MaterialPageRoute(builder: (context) => new HomeScreen()
+                       MaterialPageRoute(builder: (context) => new Home()
                         ));
             },
             child: Text(
