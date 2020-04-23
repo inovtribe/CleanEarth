@@ -5,6 +5,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:timwan/providers/main_event_details.dart';
+import 'package:timwan/providers/user_details.dart';
 import 'package:timwan/widgets/create_event_start.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -23,7 +24,11 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final mainAppDetails = Provider.of<MainAppDetails>(context);
+    final userDetails = Provider.of<UserDetails>(context);
 
+    // TODO: fix possibility of multiple users created upon app open
+    // solution: persist data, or more robust auth system
+    userDetails.signIn();
     return new Scaffold(
       body: Stack(children: <Widget>[
         GoogleMap(
