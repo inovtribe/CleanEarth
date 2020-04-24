@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -22,20 +21,10 @@ class HomeScreenState extends State<HomeScreen> {
     zoom: 14.4746,
   );
 
-  void initState() {
-    super.initState();
-    final auth = FirebaseAuth.instance;
-    auth.signInAnonymously();
-  }
-
   @override
   Widget build(BuildContext context) {
     final mainAppDetails = Provider.of<MainAppDetails>(context);
     final userDetails = Provider.of<UserDetails>(context);
-
-    // TODO: fix possibility of multiple users created upon app open
-    // solution: persist data, or more robust auth system
-    userDetails.signIn();
     return new Scaffold(
       body: Stack(children: <Widget>[
         GoogleMap(
@@ -47,6 +36,13 @@ class HomeScreenState extends State<HomeScreen> {
           myLocationButtonEnabled: false,
           onCameraMove: (position) => mainAppDetails.addPoint(position.target),
           polylines: mainAppDetails.polylines,
+        ),
+        Positioned(
+          top: 24.0,
+          child: IconButton(
+            onPressed: userDetails.signOut,
+            icon: Icon(Icons.exit_to_app),
+          ),
         ),
         _buildBottomSheet(mainAppDetails),
       ]),

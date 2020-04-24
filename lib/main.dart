@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:timwan/providers/create_report_details.dart';
 import 'package:timwan/providers/main_event_details.dart';
 import 'package:timwan/providers/user_details.dart';
-import 'package:timwan/screens/home_screen.dart';
+import 'package:timwan/screens/splash_screen.dart';
 import 'package:timwan/services/firebase_auth_service.dart';
 
 void main() => runApp(MyApp());
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Trash Cleanup App',
         debugShowCheckedModeBanner: false,
-        home: HomeScreen(),
+        home: SplashScreen(),
       ),
     );
   }
