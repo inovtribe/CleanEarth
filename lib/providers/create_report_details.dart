@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
@@ -46,14 +47,17 @@ class CreateReportDetails with ChangeNotifier {
     print('got image download url');
 
     // save report into firebase
+    final auth = FirebaseAuth.instance;
+    final userId = (await auth.currentUser()).uid;
     report = TrashReport(
       active: false,
       position: position,
       photoUrl: photoUrl,
-      userId: "",
+      userId: userId ?? "",
       tags: tags.map((tag) => tag.name).toList(),
       timestamp: DateTime.now().toUtc(),
     );
+    
     Firestore _firestore = Firestore.instance;
     _firestore.collection('reports').add(report.toJson());
     print('added report to firestore');
