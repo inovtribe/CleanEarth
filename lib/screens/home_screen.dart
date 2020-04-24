@@ -1,11 +1,12 @@
 import 'dart:async';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:timwan/providers/main_event_details.dart';
 import 'package:timwan/widgets/create_event_start.dart';
+import 'package:timwan/widgets/create_report_start.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -19,6 +20,12 @@ class HomeScreenState extends State<HomeScreen> {
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
   );
+
+  void initState() {
+    super.initState();
+    final auth = FirebaseAuth.instance;
+    auth.signInAnonymously();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +52,7 @@ class HomeScreenState extends State<HomeScreen> {
     if (appDetails.appState == MainAppState.CreateEventState) {
       return CreateEventStart();
     } else if (appDetails.appState == MainAppState.CreateReportState) {
-      return Container();
+      return CreateReportStart();
     }
 
     return SpeedDial(
@@ -62,7 +69,9 @@ class HomeScreenState extends State<HomeScreen> {
         SpeedDialChild(
             child: Icon(Icons.report),
             label: 'Create a Report',
-            onTap: () => print("Creating a report")),
+            onTap: () {
+              appDetails.appState = MainAppState.CreateReportState;
+            }),
       ],
     );
   }
