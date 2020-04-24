@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tagging/flutter_tagging.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
@@ -63,23 +64,89 @@ class CreateReportStart extends StatelessWidget {
             collapsed: Center(
               child: Text("Swipe up when done!"),
             ),
-            panel: Column(
-              children: <Widget>[
-                Container(
-                  height: 100.0,
-                  child: createReportDetails.image == null
-                      ? Icon(
-                          Icons.error,
-                          size: 90.0,
-                        )
-                      : Image.file(
-                          createReportDetails.image,
-                          fit: BoxFit.scaleDown,
+            panel: Container(
+              margin: EdgeInsets.only(top: 60.0),
+              padding: EdgeInsets.all(25.0),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    height: 100.0,
+                    child: createReportDetails.image == null
+                        ? Icon(
+                            Icons.error,
+                            size: 90.0,
+                          )
+                        : Image.file(
+                            createReportDetails.image,
+                            fit: BoxFit.scaleDown,
+                          ),
+                  ),
+                  FlutterTagging<TrashTag>(
+                    initialItems: [],
+                    textFieldConfiguration: TextFieldConfiguration(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        filled: true,
+                        labelText: 'Select Tags',
+                        hintText: 'Search Tags',
+                      ),
+                    ),
+                    additionCallback: (value) =>
+                        TrashTag(name: value, position: 0),
+                    configureChip: (tag) {
+                      return ChipConfiguration(
+                        label: Text(tag.name),
+                        backgroundColor: Colors.green,
+                        labelStyle: TextStyle(color: Colors.white),
+                        deleteIconColor: Colors.white,
+                      );
+                    },
+                    configureSuggestion: (tag) {
+                      return SuggestionConfiguration(
+                        title: Text(tag.name),
+                        additionWidget: Chip(
+                          avatar: Icon(
+                            Icons.add_circle,
+                            color: Colors.white,
+                          ),
+                          label: Text('Add New Tag'),
+                          labelStyle: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w300,
+                          ),
+                          backgroundColor: Colors.green,
                         ),
-                ),
-              ],
+                      );
+                    },
+                    findSuggestions: (query) {
+                      return [
+                        TrashTag(name: 'Paper', position: 1),
+                        TrashTag(name: 'Plastic', position: 2)
+                      ];
+                    },
+                  ),
+                ],
+              ),
             )),
       ]),
     );
   }
+}
+
+class TrashTag extends Taggable {
+  final String name;
+  final int position;
+
+  /// Creates TrashTag
+  TrashTag({this.name, this.position});
+
+  @override
+  List<Object> get props => [name];
+
+  /// Converts the class to json string.
+  String toJson() => '''  {
+    "name": $name,\n
+    "position": $position\n
+  }''';
 }
