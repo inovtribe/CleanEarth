@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:timwan/locator.dart';
 import 'package:timwan/providers/main_event_details.dart';
 import 'package:timwan/providers/user_details.dart';
+import 'package:timwan/services/firebase_auth_service.dart';
 import 'package:timwan/widgets/create_event_start.dart';
 import 'package:timwan/widgets/create_report_start.dart';
 
@@ -24,7 +26,7 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final mainAppDetails = Provider.of<MainAppDetails>(context);
-    final userDetails = Provider.of<UserDetails>(context);
+    final authService = locator<FirebaseAuthService>();
     return new Scaffold(
       body: Stack(children: <Widget>[
         GoogleMap(
@@ -40,7 +42,7 @@ class HomeScreenState extends State<HomeScreen> {
         Positioned(
           top: 24.0,
           child: IconButton(
-            onPressed: userDetails.signOut,
+            onPressed: authService.signOut,
             icon: Icon(Icons.exit_to_app),
           ),
         ),
