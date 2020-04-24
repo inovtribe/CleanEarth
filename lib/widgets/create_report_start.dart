@@ -56,8 +56,6 @@ class CreateReportStart extends StatelessWidget {
           child: Container(),
         ),
         SlidingUpPanel(
-            // minHeight: 75.0,
-            // maxHeight: 300.0,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(24.0),
                 topRight: Radius.circular(24.0)),
@@ -65,24 +63,18 @@ class CreateReportStart extends StatelessWidget {
               child: Text("Swipe up when done!"),
             ),
             panel: Container(
-              margin: EdgeInsets.only(top: 60.0),
+              margin: EdgeInsets.only(top: 50.0),
               padding: EdgeInsets.all(25.0),
               child: Column(
                 children: <Widget>[
                   Container(
-                    height: 100.0,
-                    child: createReportDetails.image == null
-                        ? Icon(
-                            Icons.error,
-                            size: 90.0,
-                          )
-                        : Image.file(
-                            createReportDetails.image,
-                            fit: BoxFit.scaleDown,
-                          ),
+                    child: Text(
+                      "Submit Report",
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ),
                   FlutterTagging<TrashTag>(
-                    initialItems: [],
+                    initialItems: createReportDetails.tags,
                     textFieldConfiguration: TextFieldConfiguration(
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -95,7 +87,7 @@ class CreateReportStart extends StatelessWidget {
                         TrashTag(name: value, position: 0),
                     configureChip: (tag) {
                       return ChipConfiguration(
-                        label: Text(tag.name),
+                        label: Text('#${tag.name}'),
                         backgroundColor: Colors.green,
                         labelStyle: TextStyle(color: Colors.white),
                         deleteIconColor: Colors.white,
@@ -122,9 +114,38 @@ class CreateReportStart extends StatelessWidget {
                     findSuggestions: (query) {
                       return [
                         TrashTag(name: 'Paper', position: 1),
-                        TrashTag(name: 'Plastic', position: 2)
-                      ];
+                        TrashTag(name: 'Plastic', position: 2),
+                        TrashTag(name: 'Hazardous', position: 3),
+                        TrashTag(name: 'Recyclable', position: 4),
+                        TrashTag(name: 'Decomposable', position: 5)
+                      ]
+                          .where((tag) => tag.name
+                              .toLowerCase()
+                              .contains(query.toLowerCase()))
+                          .toList();
                     },
+                  ),
+                  Container(
+                    height: 200.0,
+                    child: createReportDetails.image == null
+                        ? Column(
+                            children: <Widget>[
+                              Icon(
+                                Icons.error,
+                                size: 90.0,
+                              ),
+                              Text('Choose a image')
+                            ],
+                          )
+                        : Image.file(
+                            createReportDetails.image,
+                            fit: BoxFit.scaleDown,
+                          ),
+                  ),
+                  RaisedButton(
+                    child: Text('Submit'),
+                    color: Colors.blueAccent,
+                    onPressed: () => createReportDetails.submitReport(),
                   ),
                 ],
               ),
@@ -149,4 +170,6 @@ class TrashTag extends Taggable {
     "name": $name,\n
     "position": $position\n
   }''';
+
+  String toString() => '[Trashtag]: {name: $name}';
 }

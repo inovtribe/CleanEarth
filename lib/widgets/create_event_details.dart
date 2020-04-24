@@ -33,7 +33,7 @@ class CreateEventDetails extends StatelessWidget {
               child: Text('Create Event'),
               color: Colors.blueAccent,
               onPressed: () => print('create event request'),
-            )
+            ),
           ],
         ),
       ),
