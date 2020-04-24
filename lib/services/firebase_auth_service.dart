@@ -1,23 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-
-@immutable
-class User {
-  const User({
-    @required this.uid,
-    this.email,
-    this.photoUrl,
-    this.displayName,
-  });
-
-  final String uid;
-  final String email;
-  final String photoUrl;
-  final String displayName;
-}
+import 'package:timwan/models/user.dart';
+import 'package:timwan/services/firestore_service.dart';
 
 class FirebaseAuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirestoreService _firestoreService = FirestoreService();
+
+  User _currentUser;
+  User get currentUser => _currentUser;
 
   User _userFromFirebase(FirebaseUser user) {
     if (user == null) {
@@ -26,7 +17,7 @@ class FirebaseAuthService {
     return User(
       uid: user.uid,
       email: user.email,
-      displayName: user.displayName,
+      fullName: user.displayName,
       photoUrl: user.photoUrl,
     );
   }
@@ -35,17 +26,82 @@ class FirebaseAuthService {
     return _firebaseAuth.onAuthStateChanged.map(_userFromFirebase);
   }
 
-  Future<User> signInAnonymously() async {
-    final AuthResult authResult = await _firebaseAuth.signInAnonymously();
-    return _userFromFirebase(authResult.user);
+  Future loginWithEmail({
+    @required String email,
+    @required String password,
+  }) async {
+    try {
+      var authResult = await _firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      await _populateCurrentUser(authResult.user);
+      return authResult.user != null;
+    } catch (e) {
+      return e.message;
+    }
   }
 
-  Future<User> currentUser() async {
-    final FirebaseUser user = await _firebaseAuth.currentUser();
-    return _userFromFirebase(user);
+  Future signUpWithEmail({
+    @required String email,
+    @required String password,
+    @required String fullName,
+  }) async {
+    try {
+      var authResult = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      // create a new user profile on firestore
+      _currentUser = User(
+        uid: authResult.user.uid,
+        email: email,
+        fullName: fullName,
+        photoUrl: authResult.user.photoUrl,
+      );
+
+      await _firestoreService.createUser(_currentUser);
+
+      return authResult.user != null;
+    } catch (e) {
+      return e.message;
+    }
+  }
+
+  Future signInAnonymously() async {
+    try {
+      var authResult = await _firebaseAuth.signInAnonymously();
+
+      // create a new user profile on firestore
+      _currentUser = User(
+        uid: authResult.user.uid,
+        email: "",
+        fullName: 'Anonymous',
+        photoUrl: "",
+      );
+
+      await _firestoreService.createUser(_currentUser);
+
+      return authResult.user != null;
+    } catch (e) {
+      return e.message;
+    }
   }
 
   Future<void> signOut() async {
     return _firebaseAuth.signOut();
+  }
+
+  Future<bool> isUserLoggedIn() async {
+    var user = await _firebaseAuth.currentUser();
+    await _populateCurrentUser(user);
+    return user != null;
+  }
+
+  Future _populateCurrentUser(FirebaseUser user) async {
+    if (user != null) {
+      _currentUser = await _firestoreService.getUser(user.uid);
+    }
   }
 }
