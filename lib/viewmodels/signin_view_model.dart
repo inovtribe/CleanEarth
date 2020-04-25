@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:timwan/locator.dart';
-import 'package:timwan/services/firebase_auth_service.dart';
+import 'package:timwan/services/authentication_service.dart';
 import 'package:timwan/viewmodels/base_model.dart';
 
 class SignInViewModel extends BaseModel {
-  final FirebaseAuthService _auth = locator<FirebaseAuthService>();
+  final AuthenticationService _auth = locator<AuthenticationService>();
 
   void signInAnonymously() async {
     setIsLoading(true);

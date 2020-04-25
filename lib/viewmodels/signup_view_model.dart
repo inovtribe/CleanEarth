@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:timwan/locator.dart';
-import 'package:timwan/services/firebase_auth_service.dart';
+import 'package:timwan/services/authentication_service.dart';
 import 'package:timwan/viewmodels/base_model.dart';
 
 class SignUpViewModel extends BaseModel {
-  final _authService = locator<FirebaseAuthService>();
+  final _authService = locator<AuthenticationService>();
 
   Future signUp({
     @required String email,
@@ -20,7 +20,7 @@ class SignUpViewModel extends BaseModel {
       fullName: fullName,
     );
     setIsLoading(false);
-    
+
     if (result is String) {
       setErrors(result);
     }

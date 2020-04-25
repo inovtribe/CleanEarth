@@ -4,7 +4,7 @@ import 'package:timwan/locator.dart';
 import 'package:timwan/models/user.dart';
 import 'package:timwan/services/firestore_service.dart';
 
-class FirebaseAuthService {
+class AuthenticationService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirestoreService _firestoreService = locator<FirestoreService>();
 

@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:timwan/locator.dart';
 import 'package:timwan/models/user.dart';
-import 'package:timwan/services/firebase_auth_service.dart';
+import 'package:timwan/services/authentication_service.dart';
 
 class BaseModel extends ChangeNotifier {
-  final _auth = locator<FirebaseAuthService>();
+  final _auth = locator<AuthenticationService>();
 
   User get currentUser => _auth.currentUser;
 
