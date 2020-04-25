@@ -22,13 +22,20 @@ class SignInScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+                Text(
+                  'Welcome',
+                  style: TextStyle(fontSize: 38),
+                ),
                 TextField(
+                  autocorrect: false,
+                  keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     labelText: "Email",
                   ),
                   controller: emailController,
                 ),
                 TextField(
+                  autocorrect: false,
                   decoration: InputDecoration(
                     labelText: "Password",
                   ),
@@ -36,7 +43,16 @@ class SignInScreen extends StatelessWidget {
                   controller: passwordController,
                 ),
                 SizedBox(
-                  height: 25,
+                  height: 10,
+                ),
+                SizedBox(
+                  height: 35,
+                  child: (model.hasErrors
+                      ? Text(
+                          model.errors,
+                          style: TextStyle(color: Colors.red),
+                        )
+                      : Container()),
                 ),
                 LoadingButton(
                   title: "Sign In",
