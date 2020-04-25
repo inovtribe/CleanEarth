@@ -6,7 +6,7 @@ import 'package:timwan/viewmodels/base_model.dart';
 class SignInViewModel extends BaseModel {
   final AuthenticationService _auth = locator<AuthenticationService>();
 
-  void signInAnonymously() async {
+  Future signInAnonymously() async {
     setIsLoading(true);
     setErrors("");
 
@@ -16,8 +16,6 @@ class SignInViewModel extends BaseModel {
     if (result is String) {
       setErrors(result);
     }
-
-    notifyListeners();
   }
 
   Future signInWithEmail({
@@ -38,7 +36,7 @@ class SignInViewModel extends BaseModel {
     }
   }
 
-  void signOut() async {
+  Future signOut() async {
     setIsLoading(true);
     setErrors("");
 
@@ -48,7 +46,5 @@ class SignInViewModel extends BaseModel {
     if (result is String) {
       setErrors(result);
     }
-
-    notifyListeners();
   }
 }
