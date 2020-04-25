@@ -5,7 +5,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:timwan/locator.dart';
 import 'package:timwan/providers/main_event_details.dart';
-import 'package:timwan/providers/user_details.dart';
 import 'package:timwan/services/firebase_auth_service.dart';
 import 'package:timwan/widgets/create_event_start.dart';
 import 'package:timwan/widgets/create_report_start.dart';

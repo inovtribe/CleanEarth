@@ -4,6 +4,7 @@ import 'package:timwan/locator.dart';
 import 'package:timwan/providers/create_report_details.dart';
 import 'package:timwan/providers/main_event_details.dart';
 import 'package:timwan/screens/splash_screen.dart';
+import 'package:timwan/viewmodels/signin_view_model.dart';
 
 void main() {
   setupLocator();
@@ -20,6 +21,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => CreateReportDetails(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => SignInViewModel(),
         )
       ],
       child: MaterialApp(
