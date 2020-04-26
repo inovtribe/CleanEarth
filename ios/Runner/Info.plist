@@ -31,6 +31,7 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<key>NSMicrophoneUsageDescription</key>
 	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app requires location to report trash and find nearby cleanup events.</string>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>

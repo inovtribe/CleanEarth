@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:timwan/providers/main_event_details.dart';
-import 'package:timwan/widgets/create_event_details.dart';
+import 'package:timwan/ui/widgets/create_event_details.dart';
 
 class CreateEventStart extends StatelessWidget {
   @override

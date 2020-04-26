@@ -1,35 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:timwan/viewmodels/signup_view_model.dart';
-import 'package:timwan/widgets/loading_button.dart';
+import 'package:timwan/ui/widgets/loading_button.dart';
+import 'package:timwan/ui/widgets/text_link.dart';
+import 'package:timwan/viewmodels/signin_view_model.dart';
 
-class SignUpScreen extends StatelessWidget {
-  final fullNameController = TextEditingController();
+class SignInScreen extends StatelessWidget {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SignUpViewModel>(
+    return Consumer<SignInViewModel>(
       builder: (context, model, child) {
         return Scaffold(
           backgroundColor: Colors.white,
           body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50.0),
+            padding: const EdgeInsets.symmetric(horizontal: 50),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  'Sign Up',
+                  'Welcome',
                   style: TextStyle(fontSize: 38),
-                ),
-                TextField(
-                  decoration: InputDecoration(
-                    labelText: "Full Name",
-                  ),
-                  controller: fullNameController,
                 ),
                 TextField(
                   autocorrect: false,
@@ -60,26 +54,26 @@ class SignUpScreen extends StatelessWidget {
                       : Container()),
                 ),
                 LoadingButton(
-                  title: "Sign Up",
+                  title: "Sign In",
                   isLoading: model.isLoading,
-                  onPressed: () async {
-                    await model.signUp(
-                      fullName: fullNameController.text,
+                  onPressed: () => model.signInWithEmail(
                       email: emailController.text,
-                      password: passwordController.text,
-                    );
-                    if (!model.hasErrors) {
-                      Navigator.of(context).pop();
-                    }
-                  },
+                      password: passwordController.text),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                TextLink(
+                  onPressed: () => model.navigateToSignUp(),
+                  text: 'Create an account if you\'re new.',
                 ),
                 Divider(
                   height: 24,
                 ),
                 LoadingButton(
-                  title: "Go Back",
+                  title: "or Continue Anonymous",
                   isLoading: model.isLoading,
-                  onPressed: () => Navigator.of(context).pop(),
+                  onPressed: model.signInAnonymously,
                 ),
               ],
             ),

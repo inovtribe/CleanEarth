@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:timwan/constants/route_names.dart';
 import 'package:timwan/locator.dart';
 import 'package:timwan/providers/main_event_details.dart';
-import 'package:timwan/services/firebase_auth_service.dart';
-import 'package:timwan/widgets/create_event_start.dart';
-import 'package:timwan/widgets/create_report_start.dart';
+import 'package:timwan/services/authentication_service.dart';
+import 'package:timwan/services/navigation_service.dart';
+import 'package:timwan/ui/widgets/create_event_start.dart';
+import 'package:timwan/ui/widgets/create_report_start.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -25,7 +27,8 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final mainAppDetails = Provider.of<MainAppDetails>(context);
-    final authService = locator<FirebaseAuthService>();
+    final authService = locator<AuthenticationService>();
+    final _nav = locator<NavigationService>();
     return new Scaffold(
       body: Stack(children: <Widget>[
         GoogleMap(
@@ -41,8 +44,12 @@ class HomeScreenState extends State<HomeScreen> {
         Positioned(
           top: 24.0,
           child: IconButton(
-            onPressed: authService.signOut,
-            icon: Icon(Icons.exit_to_app),
+            onPressed: () async {
+              await authService.signOut();
+              // TODO: move this to view model
+              _nav.navigateTo(SignInScreenRoute);
+            },
+            icon: Icon(Icons.arrow_back),
           ),
         ),
         _buildBottomSheet(mainAppDetails),
@@ -66,7 +73,11 @@ class HomeScreenState extends State<HomeScreen> {
             child: Icon(Icons.event),
             label: 'Create a Event',
             onTap: () {
-              appDetails.appState = MainAppState.CreateEventState;
+              // appDetails.appState = MainAppState.CreateEventState;
+
+              // TODO: refactor this to view model
+              final NavigationService _nav = locator<NavigationService>();
+              _nav.navigateTo(CreateEventScreenRoute);
             }),
         SpeedDialChild(
             child: Icon(Icons.report),

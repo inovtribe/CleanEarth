@@ -4,8 +4,9 @@ import 'package:timwan/locator.dart';
 import 'package:timwan/models/user.dart';
 import 'package:timwan/services/firestore_service.dart';
 
-class FirebaseAuthService {
+class AuthenticationService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
   final FirestoreService _firestoreService = locator<FirestoreService>();
 
   User _currentUser;
@@ -27,7 +28,7 @@ class FirebaseAuthService {
     return _firebaseAuth.onAuthStateChanged.map(_userFromFirebase);
   }
 
-  Future loginWithEmail({
+  Future signInWithEmail({
     @required String email,
     @required String password,
   }) async {

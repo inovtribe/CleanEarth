@@ -4,10 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
-import 'package:location/location.dart';
+import 'package:timwan/locator.dart';
 import 'package:timwan/models/trash_report.dart';
-import 'package:timwan/utils/location.dart';
-import 'package:timwan/widgets/create_report_start.dart';
+import 'package:timwan/services/location_service.dart';
+import 'package:timwan/ui/widgets/create_report_start.dart';
 import 'package:uuid/uuid.dart';
 
 class CreateReportDetails with ChangeNotifier {
@@ -15,6 +15,8 @@ class CreateReportDetails with ChangeNotifier {
   TrashReport report;
   List<TrashTag> tags = [];
   StorageUploadTask task;
+
+  final LocationService _locationService = locator<LocationService>();
 
   void updateImage(File _image) async {
     image = _image;
@@ -38,9 +40,8 @@ class CreateReportDetails with ChangeNotifier {
       return;
     }
 
-    // get user location to tag the report
-    LocationData location = await getUserLocation();
-    GeoFirePoint position = GeoFirePoint(location.latitude, location.longitude);
+    // TODO: remove dependency on GeoFirePoint
+    GeoFirePoint position = await _locationService.getUserLocation();
 
     // upload file & get download url
     String photoUrl = await uploadImage();

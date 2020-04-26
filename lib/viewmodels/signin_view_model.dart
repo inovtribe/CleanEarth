@@ -1,23 +1,30 @@
 import 'package:flutter/foundation.dart';
+import 'package:timwan/constants/route_names.dart';
 import 'package:timwan/locator.dart';
-import 'package:timwan/services/firebase_auth_service.dart';
+import 'package:timwan/services/authentication_service.dart';
+import 'package:timwan/services/navigation_service.dart';
 import 'package:timwan/viewmodels/base_model.dart';
 
 class SignInViewModel extends BaseModel {
-  final FirebaseAuthService _auth = locator<FirebaseAuthService>();
+  final AuthenticationService _auth = locator<AuthenticationService>();
+  final NavigationService _navigationService = locator<NavigationService>();
 
-  void signInAnonymously() async {
+  Future signInAnonymously() async {
     setIsLoading(true);
     setErrors("");
 
     var result = await _auth.signInAnonymously();
     setIsLoading(false);
 
-    if (result is String) {
+    if (result is bool) {
+      if (result) {
+        _navigationService.navigateTo(HomeScreenRoute);
+      } else {
+        setErrors("Unknown error, please try again later.");
+      }
+    } else {
       setErrors(result);
     }
-
-    notifyListeners();
   }
 
   Future signInWithEmail({
@@ -27,28 +34,24 @@ class SignInViewModel extends BaseModel {
     setIsLoading(true);
     setErrors("");
 
-    var result = await _auth.loginWithEmail(
+    var result = await _auth.signInWithEmail(
       email: email,
       password: password,
     );
     setIsLoading(false);
 
-    if (result is String) {
+    if (result is bool) {
+      if (result) {
+        _navigationService.navigateTo(HomeScreenRoute);
+      } else {
+        setErrors("Unknown error, please try again later.");
+      }
+    } else {
       setErrors(result);
     }
   }
 
-  void signOut() async {
-    setIsLoading(true);
-    setErrors("");
-
-    var result = await _auth.signOut();
-    setIsLoading(false);
-
-    if (result is String) {
-      setErrors(result);
-    }
-
-    notifyListeners();
+  void navigateToSignUp() {
+    _navigationService.navigateTo(SignUpScreenRoute);
   }
 }
