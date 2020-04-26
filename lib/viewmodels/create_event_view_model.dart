@@ -1,0 +1,53 @@
+import 'package:timwan/locator.dart';
+import 'package:timwan/models/cleanup_event.dart';
+import 'package:timwan/services/authentication_service.dart';
+import 'package:timwan/services/firestore_service.dart';
+import 'package:timwan/services/location_service.dart';
+import 'package:timwan/viewmodels/base_model.dart';
+
+class CreateEventViewModel extends BaseModel {
+  final FirestoreService _firestoreService = locator<FirestoreService>();
+  final AuthenticationService _authenticationService =
+      locator<AuthenticationService>();
+  final LocationService _locationService = locator<LocationService>();
+
+  DateTime startTime = DateTime.now();
+  DateTime endTime = DateTime.now();
+
+  Future createEvent({
+    String title,
+    String description,
+    int radius,
+  }) async {
+    setIsLoading(true);
+    setErrors("");
+
+    var user = _authenticationService.currentUser;
+    var position = await _locationService.getUserLocation();
+    var event = CleanupEvent(
+      title: title,
+      description: description,
+      startTime: startTime,
+      endTime: endTime,
+      ownerUid: user.uid,
+      position: position,
+      radius: radius,
+    );
+    var result = await _firestoreService.createEvent(event);
+    setIsLoading(false);
+
+    if (result is String) {
+      setErrors(result);
+    }
+  }
+
+  void setTime(bool start, DateTime time) {
+    if (start) {
+      startTime = time;
+    } else {
+      endTime = time;
+    }
+
+    notifyListeners();
+  }
+}

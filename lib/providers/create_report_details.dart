@@ -7,7 +7,7 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:timwan/locator.dart';
 import 'package:timwan/models/trash_report.dart';
 import 'package:timwan/services/location_service.dart';
-import 'package:timwan/widgets/create_report_start.dart';
+import 'package:timwan/ui/widgets/create_report_start.dart';
 import 'package:uuid/uuid.dart';
 
 class CreateReportDetails with ChangeNotifier {

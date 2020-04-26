@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:timwan/locator.dart';
 import 'package:timwan/providers/main_event_details.dart';
 import 'package:timwan/services/authentication_service.dart';
-import 'package:timwan/widgets/create_event_start.dart';
-import 'package:timwan/widgets/create_report_start.dart';
+import 'package:timwan/ui/widgets/create_event_start.dart';
+import 'package:timwan/ui/widgets/create_report_start.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
