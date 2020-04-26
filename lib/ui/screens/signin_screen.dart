@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:timwan/ui/screens/signup_screen.dart';
 import 'package:timwan/ui/widgets/loading_button.dart';
 import 'package:timwan/ui/widgets/text_link.dart';
 import 'package:timwan/viewmodels/signin_view_model.dart';

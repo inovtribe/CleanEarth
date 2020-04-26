@@ -28,6 +28,7 @@ class HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final mainAppDetails = Provider.of<MainAppDetails>(context);
     final authService = locator<AuthenticationService>();
+    final _nav = locator<NavigationService>();
     return new Scaffold(
       body: Stack(children: <Widget>[
         GoogleMap(
@@ -43,7 +44,11 @@ class HomeScreenState extends State<HomeScreen> {
         Positioned(
           top: 24.0,
           child: IconButton(
-            onPressed: authService.signOut,
+            onPressed: () async {
+              await authService.signOut();
+              // TODO: move this to view model
+              _nav.navigateTo(SignInScreenRoute);
+            },
             icon: Icon(Icons.arrow_back),
           ),
         ),
@@ -69,7 +74,7 @@ class HomeScreenState extends State<HomeScreen> {
             label: 'Create a Event',
             onTap: () {
               // appDetails.appState = MainAppState.CreateEventState;
-              
+
               // TODO: refactor this to view model
               final NavigationService _nav = locator<NavigationService>();
               _nav.navigateTo(CreateEventScreenRoute);

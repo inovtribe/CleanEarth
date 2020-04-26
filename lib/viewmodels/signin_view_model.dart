@@ -51,18 +51,6 @@ class SignInViewModel extends BaseModel {
     }
   }
 
-  Future signOut() async {
-    setIsLoading(true);
-    setErrors("");
-
-    var result = await _auth.signOut();
-    setIsLoading(false);
-
-    if (result is String) {
-      setErrors(result);
-    }
-  }
-
   void navigateToSignUp() {
     _navigationService.navigateTo(SignUpScreenRoute);
   }

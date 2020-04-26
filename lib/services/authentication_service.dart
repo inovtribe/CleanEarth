@@ -1,16 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:timwan/constants/route_names.dart';
 import 'package:timwan/locator.dart';
 import 'package:timwan/models/user.dart';
 import 'package:timwan/services/firestore_service.dart';
-import 'package:timwan/services/navigation_service.dart';
 
 class AuthenticationService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   final FirestoreService _firestoreService = locator<FirestoreService>();
-  final NavigationService _navigationService = locator<NavigationService>();
 
   User _currentUser;
   User get currentUser => _currentUser;
@@ -97,7 +94,6 @@ class AuthenticationService {
   Future signOut() async {
     await _firebaseAuth.signOut();
     _currentUser = null;
-    _navigationService.navigateTo(SignInScreenRoute);
   }
 
   Future<bool> isUserLoggedIn() async {
