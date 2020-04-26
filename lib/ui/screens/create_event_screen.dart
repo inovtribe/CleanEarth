@@ -22,7 +22,7 @@ class CreateEventScreen extends StatelessWidget {
           ),
           backgroundColor: Colors.white,
           body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40.0),
+            padding: const EdgeInsets.symmetric(horizontal: 30.0),
             child: ListView(
               children: <Widget>[
                 Text(
