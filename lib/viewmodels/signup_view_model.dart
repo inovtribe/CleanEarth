@@ -1,10 +1,13 @@
 import 'package:flutter/foundation.dart';
+import 'package:timwan/constants/route_names.dart';
 import 'package:timwan/locator.dart';
 import 'package:timwan/services/authentication_service.dart';
+import 'package:timwan/services/navigation_service.dart';
 import 'package:timwan/viewmodels/base_model.dart';
 
 class SignUpViewModel extends BaseModel {
-  final _authService = locator<AuthenticationService>();
+  final AuthenticationService _authService = locator<AuthenticationService>();
+  final NavigationService _navigationService = locator<NavigationService>();
 
   Future signUp({
     @required String email,
@@ -21,8 +24,18 @@ class SignUpViewModel extends BaseModel {
     );
     setIsLoading(false);
 
-    if (result is String) {
+    if (result is bool) {
+      if (result) {
+        _navigationService.navigateTo(HomeScreenRoute);
+      } else {
+        setErrors("Unknown error, please try again later.");
+      }
+    } else {
       setErrors(result);
     }
+  }
+
+  void navigateToSignIn() {
+    _navigationService.navigateTo(SignInScreenRoute);
   }
 }

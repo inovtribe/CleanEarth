@@ -65,10 +65,7 @@ class SignInScreen extends StatelessWidget {
                   height: 20,
                 ),
                 TextLink(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => SignUpScreen()));
-                  },
+                  onPressed: () => model.navigateToSignUp(),
                   text: 'Create an account if you\'re new.',
                 ),
                 Divider(

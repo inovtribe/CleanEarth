@@ -42,7 +42,7 @@ class HomeScreenState extends State<HomeScreen> {
           top: 24.0,
           child: IconButton(
             onPressed: authService.signOut,
-            icon: Icon(Icons.exit_to_app),
+            icon: Icon(Icons.arrow_back),
           ),
         ),
         _buildBottomSheet(mainAppDetails),

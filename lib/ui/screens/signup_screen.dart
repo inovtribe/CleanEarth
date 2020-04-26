@@ -15,12 +15,24 @@ class SignUpScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: Colors.white,
           body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50.0),
+            padding: const EdgeInsets.symmetric(horizontal: 40.0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
+              // mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+                Container(
+                  height: 120,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      GestureDetector(
+                        child: Icon(Icons.arrow_back),
+                        onTap: model.navigateToSignIn,
+                      ),
+                    ],
+                  ),
+                ),
                 Text(
                   'Sign Up',
                   style: TextStyle(fontSize: 38),
@@ -62,16 +74,11 @@ class SignUpScreen extends StatelessWidget {
                 LoadingButton(
                   title: "Sign Up",
                   isLoading: model.isLoading,
-                  onPressed: () async {
-                    await model.signUp(
-                      fullName: fullNameController.text,
-                      email: emailController.text,
-                      password: passwordController.text,
-                    );
-                    if (!model.hasErrors) {
-                      Navigator.of(context).pop();
-                    }
-                  },
+                  onPressed: () => model.signUp(
+                    fullName: fullNameController.text,
+                    email: emailController.text,
+                    password: passwordController.text,
+                  ),
                 ),
                 Divider(
                   height: 24,
