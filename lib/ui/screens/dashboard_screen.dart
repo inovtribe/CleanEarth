@@ -19,8 +19,8 @@ class DashboardScreen extends StatelessWidget {
           body: Padding(
             padding: const EdgeInsets.only(
               top: 30.0,
-              left: 10.0,
-              right: 10.0,
+              left: 20.0,
+              right: 20.0,
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -39,6 +39,18 @@ class DashboardScreen extends StatelessWidget {
                 ),
                 ReportsStatsCard(
                   stats: model.stats,
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Nearby Events',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
                 ),
                 Container(
                   height: 250,
