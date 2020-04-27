@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
+import 'package:timwan/models/image_data.dart';
 import 'package:uuid/uuid.dart';
 
 class CloudStorageService {
@@ -20,7 +21,7 @@ class CloudStorageService {
 
       var imageUrl = await snapshot.ref.getDownloadURL();
       if (uploadTask.isComplete) {
-        return CloudStorageResult(
+        return ImageData(
           imageUrl: imageUrl.toString(),
           imagePath: imagePath,
         );
@@ -43,11 +44,4 @@ class CloudStorageService {
       e.toString();
     }
   }
-}
-
-class CloudStorageResult {
-  final String imageUrl;
-  final String imagePath;
-
-  CloudStorageResult({this.imageUrl, this.imagePath});
 }
