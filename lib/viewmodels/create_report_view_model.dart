@@ -22,7 +22,7 @@ class CreateReportViewModel extends BaseModel {
       locator<AuthenticationService>();
 
   File image;
-  List<TrashTag> tags;
+  List<TrashTag> tags = [];
 
   Future selectImageFromCamera() async {
     image = await _imagePickerService.selectImageFromCamera();
@@ -54,7 +54,7 @@ class CreateReportViewModel extends BaseModel {
     if (result is ImageData) {
       var report = TrashReport(
           active: false,
-          position: position.data,
+          position: position,
           tags: tags.map((tag) => tag.name).toList(),
           timestamp: DateTime.now().toUtc(),
           userId: _authenticationService.currentUser.uid,
