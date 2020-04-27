@@ -25,11 +25,15 @@ class CreateReportViewModel extends BaseModel {
   List<TrashTag> tags = [];
 
   Future selectImageFromCamera() async {
+    setIsLoading(true);
     image = await _imagePickerService.selectImageFromCamera();
+    setIsLoading(false);
   }
 
   Future selectImageFromGallery() async {
+    setIsLoading(true);
     image = await _imagePickerService.selectImageFromGallery();
+    setIsLoading(false);
   }
 
   Future createReport() async {
