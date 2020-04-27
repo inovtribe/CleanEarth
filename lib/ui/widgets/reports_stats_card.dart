@@ -11,10 +11,59 @@ class ReportsStatsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(stats.needHelp.toString()),
-        Text(stats.cleanedUp.toString()),
+        Text(
+          'Nearby Reports',
+          style: TextStyle(
+            fontSize: 20,
+          ),
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        Container(
+          // margin: const EdgeInsets.all(12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Container(
+                height: 100,
+                width: 150,
+                child: Card(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        stats.needHelp.toString(),
+                        style: TextStyle(fontSize: 24),
+                      ),
+                      Text('need help'),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                height: 100,
+                width: 150,
+                child: Card(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        stats.cleanedUp.toString(),
+                        style: TextStyle(fontSize: 24),
+                      ),
+                      Text('cleaned up')
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }
