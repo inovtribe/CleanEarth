@@ -71,4 +71,8 @@ class DashboardViewModel extends BaseModel {
     _statsStreamSubscription.cancel();
     super.dispose();
   }
+
+  void navigateToCreateReport() {
+    _navigationService.navigateTo(CreateReportScreenRoute);
+  }
 }

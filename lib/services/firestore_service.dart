@@ -10,11 +10,11 @@ import 'package:timwan/models/trash_report.dart';
 import 'package:timwan/models/user.dart';
 
 class FirestoreService {
-  final CollectionReference _usersCollectionReference =
+  final CollectionReference _usersCollectionRef =
       Firestore.instance.collection('users');
-  final CollectionReference _eventsCollectionReference =
+  final CollectionReference _eventsCollectionRef =
       Firestore.instance.collection('events');
-  final CollectionReference _reportscollectionReference =
+  final CollectionReference _reportsCollectionRef =
       Firestore.instance.collection('reports');
 
   Geoflutterfire geo = Geoflutterfire();
@@ -30,7 +30,19 @@ class FirestoreService {
 
   Future createEvent(CleanupEvent event) async {
     try {
-      await _eventsCollectionReference.add(event.toJson());
+      await _eventsCollectionRef.add(event.toJson());
+    } catch (e) {
+      // TODO: Find or create a way to repeat error handling without so much repeated code
+      if (e is PlatformException) {
+        return e.message;
+      }
+      return e.toString();
+    }
+  }
+
+  Future createReport(TrashReport report) async {
+    try {
+      await _reportsCollectionRef.add(report.toJson());
     } catch (e) {
       // TODO: Find or create a way to repeat error handling without so much repeated code
       if (e is PlatformException) {
@@ -46,11 +58,12 @@ class FirestoreService {
   }) {
     try {
       geo
-          .collection(collectionRef: _eventsCollectionReference)
+          .collection(collectionRef: _eventsCollectionRef)
           .within(center: point, radius: radius, field: field)
           .listen((snapshot) {
-        var events =
-            snapshot.map((document) => CleanupEvent.fromJson(document.data)).toList();
+        var events = snapshot
+            .map((document) => CleanupEvent.fromJson(document.data))
+            .toList();
 
         _nearbyEventsController.add(events);
       });
@@ -67,7 +80,7 @@ class FirestoreService {
   }) {
     try {
       geo
-          .collection(collectionRef: _reportscollectionReference)
+          .collection(collectionRef: _reportsCollectionRef)
           .within(
             center: point,
             radius: radius,
@@ -100,7 +113,7 @@ class FirestoreService {
 
   Future createUser(User user) async {
     try {
-      await _usersCollectionReference.document(user.uid).setData(user.toJson());
+      await _usersCollectionRef.document(user.uid).setData(user.toJson());
     } catch (e) {
       // TODO: Find or create a way to repeat error handling without so much repeated code
       if (e is PlatformException) {
@@ -112,7 +125,7 @@ class FirestoreService {
 
   Future getUser(String uid) async {
     try {
-      var userData = await _usersCollectionReference.document(uid).get();
+      var userData = await _usersCollectionRef.document(uid).get();
       return User.fromData(userData.data);
     } catch (e) {
       // TODO: Find or create a way to repeat error handling without so much repeated code

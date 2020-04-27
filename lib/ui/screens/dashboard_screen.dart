@@ -68,6 +68,11 @@ class DashboardScreen extends StatelessWidget {
               ],
             ),
           ),
+          floatingActionButton: FloatingActionButton(
+            // TODO: need to go to create report
+            onPressed: model.navigateToCreateReport,
+            child: Icon(Icons.camera_alt),
+          ),
         );
       },
     );

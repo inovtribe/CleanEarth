@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timwan/locator.dart';
-import 'package:timwan/providers/create_report_details.dart';
-import 'package:timwan/providers/main_event_details.dart';
 import 'package:timwan/services/navigation_service.dart';
 import 'package:timwan/ui/router.dart';
 import 'package:timwan/ui/screens/splash_screen.dart';
@@ -21,12 +19,6 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => MainAppDetails(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => CreateReportDetails(),
-        ),
-        ChangeNotifierProvider(
           create: (_) => SignInViewModel(),
         ),
         ChangeNotifierProvider(
@@ -34,7 +26,7 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => CreateEventViewModel(),
-        )
+        ),
       ],
       child: MaterialApp(
         title: 'Trash Cleanup App',
