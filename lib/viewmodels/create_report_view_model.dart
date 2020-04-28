@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_tagging/flutter_tagging.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:timwan/constants/route_names.dart';
 import 'package:timwan/locator.dart';
 import 'package:timwan/models/image_data.dart';
 import 'package:timwan/models/trash_report.dart';
@@ -10,12 +11,14 @@ import 'package:timwan/services/cloud_storage_service.dart';
 import 'package:timwan/services/firestore_service.dart';
 import 'package:timwan/services/image_picker_service.dart';
 import 'package:timwan/services/location_service.dart';
+import 'package:timwan/services/navigation_service.dart';
 import 'package:timwan/viewmodels/base_model.dart';
 
 class CreateReportViewModel extends BaseModel {
   final LocationService _locationService = locator<LocationService>();
   final FirestoreService _firestoreService = locator<FirestoreService>();
   final ImagePickerService _imagePickerService = locator<ImagePickerService>();
+  final NavigationService _navigationService = locator<NavigationService>();
   final CloudStorageService _cloudStorageService =
       locator<CloudStorageService>();
   final AuthenticationService _authenticationService =
@@ -64,7 +67,13 @@ class CreateReportViewModel extends BaseModel {
           userId: _authenticationService.currentUser.uid,
           imageData: result);
 
-      await _firestoreService.createReport(report);
+      var report_res = await _firestoreService.createReport(report);
+
+      if (report_res is String) {
+        setErrors(report_res);
+      } else {
+        _navigationService.navigateTo(DashboardScreenRoute);
+      }
     }
 
     setIsLoading(false);
