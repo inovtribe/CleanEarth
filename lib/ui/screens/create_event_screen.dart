@@ -17,11 +17,14 @@ class CreateEventScreen extends StatelessWidget {
       viewModelBuilder: () => CreateEventViewModel(),
       builder: (context, model, child) {
         return Scaffold(
+          backgroundColor: Colors.white,
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0.0,
+            iconTheme: IconThemeData(
+              color: Colors.black,
+            ),
           ),
-          backgroundColor: Colors.white,
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30.0),
             child: ListView(

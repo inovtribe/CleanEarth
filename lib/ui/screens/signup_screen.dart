@@ -15,25 +15,19 @@ class SignUpScreen extends StatelessWidget {
       builder: (context, model, _) {
         return Scaffold(
           backgroundColor: Colors.white,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+            iconTheme: IconThemeData(
+              color: Colors.black,
+            ),
+          ),
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40.0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
-              // mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  height: 120,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      GestureDetector(
-                        child: Icon(Icons.arrow_back),
-                        onTap: model.navigateToSignIn,
-                      ),
-                    ],
-                  ),
-                ),
                 Text(
                   'Sign Up',
                   style: TextStyle(fontSize: 38),
@@ -80,14 +74,6 @@ class SignUpScreen extends StatelessWidget {
                     email: emailController.text,
                     password: passwordController.text,
                   ),
-                ),
-                Divider(
-                  height: 24,
-                ),
-                LoadingButton(
-                  title: "Go Back",
-                  isLoading: model.isLoading,
-                  onPressed: () => Navigator.of(context).pop(),
                 ),
               ],
             ),
