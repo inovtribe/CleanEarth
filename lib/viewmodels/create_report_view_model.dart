@@ -27,6 +27,9 @@ class CreateReportViewModel extends BaseModel {
   File image;
   List<TrashTag> tags = [];
 
+  bool _active = false;
+  bool get active => _active;
+
   Future selectImageFromCamera() async {
     setIsLoading(true);
     image = await _imagePickerService.selectImageFromCamera();
@@ -37,6 +40,11 @@ class CreateReportViewModel extends BaseModel {
     setIsLoading(true);
     image = await _imagePickerService.selectImageFromGallery();
     setIsLoading(false);
+  }
+
+  void changeActive(bool value) {
+    _active = value;
+    notifyListeners();
   }
 
   Future createReport() async {
@@ -60,7 +68,7 @@ class CreateReportViewModel extends BaseModel {
 
     if (result is ImageData) {
       var report = TrashReport(
-          active: false,
+          active: !_active,
           position: position,
           tags: tags.map((tag) => tag.name).toList(),
           timestamp: DateTime.now().toUtc(),

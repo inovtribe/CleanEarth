@@ -76,7 +76,7 @@ class CreateReportScreen extends StatelessWidget {
                   findSuggestions: model.findSuggestions,
                 ),
                 Container(
-                  height: 200.0,
+                  height: 180.0,
                   margin: const EdgeInsets.symmetric(vertical: 10),
                   child: model.image == null
                       ? Column(
@@ -86,24 +86,34 @@ class CreateReportScreen extends StatelessWidget {
                               size: 90.0,
                             ),
                             Text('Choose a image'),
-                            Row(
-                              children: <Widget>[
-                                IconButton(
-                                  onPressed: model.selectImageFromGallery,
-                                  icon: Icon(Icons.photo_library),
-                                ),
-                                IconButton(
-                                  onPressed: model.selectImageFromCamera,
-                                  icon: Icon(Icons.camera_alt),
-                                ),
-                              ],
-                            )
                           ],
                         )
                       : Image.file(
                           model.image,
                           fit: BoxFit.scaleDown,
                         ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    IconButton(
+                      onPressed: model.selectImageFromGallery,
+                      icon: Icon(Icons.photo_library),
+                    ),
+                    IconButton(
+                      onPressed: model.selectImageFromCamera,
+                      icon: Icon(Icons.camera_alt),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Checkbox(
+                      value: model.active ?? false,
+                      onChanged: model.changeActive,
+                    ),
+                    Text('Did you clean it up?')
+                  ],
                 ),
                 Container(
                   width: 150,
