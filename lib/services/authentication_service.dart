@@ -12,6 +12,9 @@ class AuthenticationService {
   User _currentUser;
   User get currentUser => _currentUser;
 
+  bool _isUserAnonymous = false;
+  bool get isUserAnonymous => _isUserAnonymous;
+
   User _userFromFirebase(FirebaseUser user) {
     if (user == null) {
       return null;
@@ -84,6 +87,7 @@ class AuthenticationService {
       );
 
       await _firestoreService.createUser(_currentUser);
+      _isUserAnonymous = authResult.user.isAnonymous;
 
       return authResult.user != null;
     } catch (e) {
@@ -98,13 +102,9 @@ class AuthenticationService {
 
   Future<bool> isUserLoggedIn() async {
     var user = await _firebaseAuth.currentUser();
+    _isUserAnonymous = user.isAnonymous;
     await _populateCurrentUser(user);
     return user != null;
-  }
-
-  Future<bool> isUserAnonymous() async {
-    var user = await _firebaseAuth.currentUser();
-    return user.isAnonymous;
   }
 
   Future _populateCurrentUser(FirebaseUser user) async {

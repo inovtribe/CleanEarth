@@ -10,20 +10,38 @@ class UserDetailsScreen extends StatelessWidget {
       viewModelBuilder: () => UserDetailsViewModel(),
       builder: (context, model, _) {
         return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+            iconTheme: IconThemeData(
+              color: Colors.black,
+            ),
+          ),
           backgroundColor: Colors.white,
-          body: Column(
-            children: <Widget>[
-              if (!model.isAnonynomous())
-                LoadingButton(
-                  title: 'Create Event',
-                  onPressed: model.navigateToCreateEvent,
+          body: Padding(
+            padding: const EdgeInsets.only(
+              top: 50,
+              left: 15,
+              right: 15.0,
+            ),
+            child: Column(
+              children: <Widget>[
+                Text('Hello, ${model.user.fullName}'),
+                if (!model.isAnonymous())
+                  LoadingButton(
+                    title: 'Create Event',
+                    onPressed: model.navigateToCreateEvent,
+                  ),
+                SizedBox(
+                  height: 15,
                 ),
-              LoadingButton(
-                title: 'Sign Out',
-                isLoading: model.isLoading,
-                onPressed: model.signOut,
-              )
-            ],
+                LoadingButton(
+                  title: 'Sign Out',
+                  isLoading: model.isLoading,
+                  onPressed: model.signOut,
+                )
+              ],
+            ),
           ),
         );
       },

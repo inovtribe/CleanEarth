@@ -31,8 +31,7 @@ class DashboardScreen extends StatelessWidget {
                     children: <Widget>[
                       IconButton(
                         icon: Icon(Icons.person),
-                        // TODO: create user page
-                        onPressed: model.signOut,
+                        onPressed: model.navigateToUserDetails,
                       )
                     ],
                   ),

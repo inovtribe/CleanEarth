@@ -60,11 +60,6 @@ class DashboardViewModel extends BaseModel {
     });
   }
 
-  Future signOut() async {
-    await _authenticationService.signOut();
-    _navigationService.navigateTo(SignInScreenRoute);
-  }
-
   @override
   void dispose() {
     _eventsStreamSubscription.cancel();
@@ -74,5 +69,9 @@ class DashboardViewModel extends BaseModel {
 
   void navigateToCreateReport() {
     _navigationService.navigateTo(CreateReportScreenRoute);
+  }
+
+  void navigateToUserDetails() {
+    _navigationService.navigateTo(UserDetailsScreenRoute);
   }
 }
