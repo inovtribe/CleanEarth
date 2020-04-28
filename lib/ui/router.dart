@@ -5,6 +5,7 @@ import 'package:timwan/ui/screens/create_report_screen.dart';
 import 'package:timwan/ui/screens/dashboard_screen.dart';
 import 'package:timwan/ui/screens/signin_screen.dart';
 import 'package:timwan/ui/screens/signup_screen.dart';
+import 'package:timwan/ui/screens/user_details_screen.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -22,6 +23,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
         routeName: settings.name,
         viewToShow: DashboardScreen(),
+      );
+    case UserDetailsScreenRoute:
+      return _getPageRoute(
+        routeName: settings.name,
+        viewToShow: UserDetailsScreen(),
       );
     case CreateEventScreenRoute:
       return _getPageRoute(

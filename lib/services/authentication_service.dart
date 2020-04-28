@@ -102,6 +102,11 @@ class AuthenticationService {
     return user != null;
   }
 
+  Future<bool> isUserAnonymous() async {
+    var user = await _firebaseAuth.currentUser();
+    return user.isAnonymous;
+  }
+
   Future _populateCurrentUser(FirebaseUser user) async {
     if (user != null) {
       _currentUser = await _firestoreService.getUser(user.uid);
