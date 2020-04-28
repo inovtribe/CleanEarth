@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:provider/provider.dart';
+import 'package:stacked/stacked.dart';
 import 'package:timwan/ui/widgets/loading_button.dart';
 import 'package:timwan/viewmodels/create_event_view_model.dart';
 
@@ -13,7 +13,8 @@ class CreateEventScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CreateEventViewModel>(
+    return ViewModelBuilder<CreateEventViewModel>.reactive(
+      viewModelBuilder: () => CreateEventViewModel(),
       builder: (context, model, child) {
         return Scaffold(
           appBar: AppBar(

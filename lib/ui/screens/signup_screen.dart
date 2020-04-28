@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:stacked/stacked.dart';
 import 'package:timwan/ui/widgets/loading_button.dart';
 import 'package:timwan/viewmodels/signup_view_model.dart';
 
@@ -10,8 +10,9 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SignUpViewModel>(
-      builder: (context, model, child) {
+    return ViewModelBuilder<SignUpViewModel>.reactive(
+      viewModelBuilder: () => SignUpViewModel(),
+      builder: (context, model, _) {
         return Scaffold(
           backgroundColor: Colors.white,
           body: Padding(
