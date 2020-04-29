@@ -75,10 +75,10 @@ class CreateReportViewModel extends BaseModel {
           userId: _authenticationService.currentUser.uid,
           imageData: result);
 
-      var report_res = await _firestoreService.createReport(report);
+      var reportRes = await _firestoreService.createReport(report);
 
-      if (report_res is String) {
-        setErrors(report_res);
+      if (reportRes is String) {
+        setErrors(reportRes);
       } else {
         _navigationService.navigateTo(DashboardScreenRoute);
       }

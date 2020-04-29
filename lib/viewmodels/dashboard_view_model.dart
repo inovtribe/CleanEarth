@@ -4,7 +4,6 @@ import 'package:timwan/constants/route_names.dart';
 import 'package:timwan/locator.dart';
 import 'package:timwan/models/cleanup_event.dart';
 import 'package:timwan/models/reports_stats.dart';
-import 'package:timwan/services/authentication_service.dart';
 import 'package:timwan/services/firestore_service.dart';
 import 'package:timwan/services/location_service.dart';
 import 'package:timwan/services/navigation_service.dart';
@@ -14,8 +13,6 @@ class DashboardViewModel extends BaseModel {
   final FirestoreService _firestoreService = locator<FirestoreService>();
   final LocationService _locationService = locator<LocationService>();
   final NavigationService _navigationService = locator<NavigationService>();
-  final AuthenticationService _authenticationService =
-      locator<AuthenticationService>();
 
   ReportsStats _stats = ReportsStats();
   ReportsStats get stats => _stats;
