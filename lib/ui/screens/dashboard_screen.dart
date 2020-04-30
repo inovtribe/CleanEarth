@@ -53,19 +53,24 @@ class DashboardScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Container(
-                    height: 250,
-                    child: ListView.builder(
-                      itemCount: model.events?.length ?? 0,
-                      scrollDirection: Axis.horizontal,
-                      itemExtent: 300,
-                      itemBuilder: (context, index) {
-                        return CleanupEventTile(
-                          event: model.events[index],
-                        );
-                      },
+                  if (model.events != null && model.events.length > 0)
+                    Container(
+                      height: 250,
+                      child: ListView.builder(
+                        itemCount: model.events?.length ?? 0,
+                        scrollDirection: Axis.horizontal,
+                        itemExtent: 300,
+                        itemBuilder: (context, index) {
+                          return CleanupEventTile(
+                            event: model.events[index],
+                          );
+                        },
+                      ),
                     ),
-                  )
+                  if (model.events == null || model.events.length == 0)
+                    Container(
+                      child: Text('No nearby cleanup events found :('),
+                    ),
                 ],
               ),
             ),
