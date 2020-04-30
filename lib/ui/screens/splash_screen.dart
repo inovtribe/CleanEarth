@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:timwan/locator.dart';
 import 'package:timwan/services/authentication_service.dart';
-import 'package:timwan/ui/screens/home_screen.dart';
+import 'package:timwan/ui/screens/dashboard_screen.dart';
 import 'package:timwan/ui/screens/signin_screen.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -15,7 +15,7 @@ class SplashScreen extends StatelessWidget {
           if (snapshot.data == false) {
             return SignInScreen();
           }
-          return HomeScreen();
+          return DashboardScreen();
         } else {
           return Scaffold(
             body: Center(

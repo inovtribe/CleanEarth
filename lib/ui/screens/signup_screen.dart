@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:stacked/stacked.dart';
 import 'package:timwan/ui/widgets/loading_button.dart';
 import 'package:timwan/viewmodels/signup_view_model.dart';
 
@@ -10,29 +10,24 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SignUpViewModel>(
-      builder: (context, model, child) {
+    return ViewModelBuilder<SignUpViewModel>.reactive(
+      viewModelBuilder: () => SignUpViewModel(),
+      builder: (context, model, _) {
         return Scaffold(
           backgroundColor: Colors.white,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+            iconTheme: IconThemeData(
+              color: Colors.black,
+            ),
+          ),
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40.0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
-              // mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  height: 120,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      GestureDetector(
-                        child: Icon(Icons.arrow_back),
-                        onTap: model.navigateToSignIn,
-                      ),
-                    ],
-                  ),
-                ),
                 Text(
                   'Sign Up',
                   style: TextStyle(fontSize: 38),
@@ -79,14 +74,6 @@ class SignUpScreen extends StatelessWidget {
                     email: emailController.text,
                     password: passwordController.text,
                   ),
-                ),
-                Divider(
-                  height: 24,
-                ),
-                LoadingButton(
-                  title: "Go Back",
-                  isLoading: model.isLoading,
-                  onPressed: () => Navigator.of(context).pop(),
                 ),
               ],
             ),

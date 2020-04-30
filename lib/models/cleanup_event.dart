@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 
@@ -40,15 +41,20 @@ class CleanupEvent {
     title = json['title'];
     description = json['description'];
     ownerUid = json['owner_uid'];
-    startTime = json['start_time'];
-    endTime = json['end_time'];
-    position = json['position'] != null
-        ? new GeoFirePoint(json['position']['geopoint'].latitude, json['position'].longitude)
-        : null;
+    startTime = (json['start_time'] as Timestamp).toDate();
+    endTime = (json['end_time'] as Timestamp).toDate();
+    if (json['position'] != null) {
+      position = new GeoFirePoint(
+        json['position']['geopoint'].latitude,
+        json['position']['geopoint'].longitude,
+      );
+    } else {
+      position = null;
+    }
     radius = json['radius'];
-    volunteers = json['volunteers'].cast<String>();
-    organizers = json['organizers'].cast<String>();
-    reports = json['reports'].cast<String>();
+    volunteers = json['volunteers']?.cast<String>();
+    organizers = json['organizers']?.cast<String>();
+    reports = json['reports']?.cast<String>();
   }
 
   Map<String, dynamic> toJson() {

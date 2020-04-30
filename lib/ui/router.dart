@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:timwan/constants/route_names.dart';
 import 'package:timwan/ui/screens/create_event_screen.dart';
-import 'package:timwan/ui/screens/home_screen.dart';
+import 'package:timwan/ui/screens/create_report_screen.dart';
+import 'package:timwan/ui/screens/dashboard_screen.dart';
 import 'package:timwan/ui/screens/signin_screen.dart';
 import 'package:timwan/ui/screens/signup_screen.dart';
+import 'package:timwan/ui/screens/user_details_screen.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -17,15 +19,25 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         routeName: settings.name,
         viewToShow: SignUpScreen(),
       );
-    case HomeScreenRoute:
+    case DashboardScreenRoute:
       return _getPageRoute(
         routeName: settings.name,
-        viewToShow: HomeScreen(),
+        viewToShow: DashboardScreen(),
+      );
+    case UserDetailsScreenRoute:
+      return _getPageRoute(
+        routeName: settings.name,
+        viewToShow: UserDetailsScreen(),
       );
     case CreateEventScreenRoute:
       return _getPageRoute(
         routeName: settings.name,
         viewToShow: CreateEventScreen(),
+      );
+    case CreateReportScreenRoute:
+      return _getPageRoute(
+        routeName: settings.name,
+        viewToShow: CreateReportScreen(),
       );
     default:
       return MaterialPageRoute(

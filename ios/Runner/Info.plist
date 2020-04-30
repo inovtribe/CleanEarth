@@ -27,11 +27,6 @@
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>
-	<key>NSCameraUsageDescription</key>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<key>NSMicrophoneUsageDescription</key>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app requires location to report trash and find nearby cleanup events.</string>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
@@ -46,5 +41,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>Take a picture to report trash.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Choose a picture from gallery to report trash.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app requires location to report trash and find nearby cleanup events.</string>
 </dict>
 </plist>

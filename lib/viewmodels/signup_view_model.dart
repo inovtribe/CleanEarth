@@ -26,7 +26,7 @@ class SignUpViewModel extends BaseModel {
 
     if (result is bool) {
       if (result) {
-        _navigationService.navigateTo(HomeScreenRoute);
+        _navigationService.navigateTo(DashboardScreenRoute);
       } else {
         setErrors("Unknown error, please try again later.");
       }

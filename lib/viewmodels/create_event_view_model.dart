@@ -1,12 +1,15 @@
+import 'package:timwan/constants/route_names.dart';
 import 'package:timwan/locator.dart';
 import 'package:timwan/models/cleanup_event.dart';
 import 'package:timwan/services/authentication_service.dart';
 import 'package:timwan/services/firestore_service.dart';
 import 'package:timwan/services/location_service.dart';
+import 'package:timwan/services/navigation_service.dart';
 import 'package:timwan/viewmodels/base_model.dart';
 
 class CreateEventViewModel extends BaseModel {
   final FirestoreService _firestoreService = locator<FirestoreService>();
+  final NavigationService _navigationService = locator<NavigationService>();
   final AuthenticationService _authenticationService =
       locator<AuthenticationService>();
   final LocationService _locationService = locator<LocationService>();
@@ -38,6 +41,8 @@ class CreateEventViewModel extends BaseModel {
 
     if (result is String) {
       setErrors(result);
+    } else {
+      _navigationService.navigateTo(DashboardScreenRoute);
     }
   }
 

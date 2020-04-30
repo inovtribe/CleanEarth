@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:timwan/models/image_data.dart';
 
 class TrashReport {
   GeoFirePoint position;
-  String photoUrl;
+  ImageData imageData;
   String userId;
   List<String> tags;
   bool active;
@@ -10,21 +12,26 @@ class TrashReport {
 
   TrashReport(
       {this.position,
-      this.photoUrl,
+      this.imageData,
       this.userId,
       this.tags,
       this.active,
       this.timestamp});
 
   TrashReport.fromJson(Map<String, dynamic> json) {
-    position = json['position'] != null
-        ? new GeoFirePoint(json['position']['geopoint'].latitude, json['position'].longitude)
-        : null;
-    photoUrl = json['photo_url'];
+    if (json['position'] != null) {
+      position = new GeoFirePoint(
+        json['position']['geopoint'].latitude,
+        json['position']['geopoint'].longitude,
+      );
+    } else {
+      position = null;
+    }
+    imageData = ImageData.fromJson(json['image_data']);
     userId = json['user_id'];
     tags = json['tags'].cast<String>();
     active = json['active'];
-    timestamp = json['timestamp'];
+    timestamp = (json['timestamp'] as Timestamp).toDate();
   }
 
   Map<String, dynamic> toJson() {
@@ -32,7 +39,7 @@ class TrashReport {
     if (this.position != null) {
       data['position'] = this.position.data;
     }
-    data['photo_url'] = this.photoUrl;
+    data['image_data'] = this.imageData.toJson();
     data['user_id'] = this.userId;
     data['tags'] = this.tags;
     data['active'] = this.active;
