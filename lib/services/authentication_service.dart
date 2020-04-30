@@ -102,7 +102,7 @@ class AuthenticationService {
 
   Future<bool> isUserLoggedIn() async {
     var user = await _firebaseAuth.currentUser();
-    _isUserAnonymous = user.isAnonymous;
+    _isUserAnonymous = user?.isAnonymous ?? false;
     await _populateCurrentUser(user);
     return user != null;
   }

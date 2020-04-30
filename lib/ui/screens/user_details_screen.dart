@@ -27,7 +27,7 @@ class UserDetailsScreen extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Text(
-                  'Hello, ${model.user.fullName}',
+                  'Hello, ${model.user?.fullName}',
                   style: TextStyle(fontSize: 24),
                 ),
                 SizedBox(
