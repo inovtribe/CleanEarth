@@ -71,4 +71,8 @@ class DashboardViewModel extends BaseModel {
   void navigateToUserDetails() {
     _navigationService.navigateTo(UserDetailsScreenRoute);
   }
+
+  void navigateToEventDetails(CleanupEvent event) {
+    _navigationService.navigateTo(EventDetailsScreenRoute);
+  }
 }
