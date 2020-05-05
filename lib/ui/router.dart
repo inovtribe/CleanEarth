@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:timwan/constants/route_names.dart';
+import 'package:timwan/models/cleanup_event.dart';
 import 'package:timwan/ui/screens/create_event_screen.dart';
 import 'package:timwan/ui/screens/create_report_screen.dart';
 import 'package:timwan/ui/screens/dashboard_screen.dart';
@@ -31,9 +32,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         viewToShow: UserDetailsScreen(),
       );
     case EventDetailsScreenRoute:
+      var event = settings.arguments as CleanupEvent;
       return _getPageRoute(
         routeName: settings.name,
-        viewToShow: EventDetailsScreen(),
+        viewToShow: EventDetailsScreen(
+          event: event,
+        ),
       );
     case CreateEventScreenRoute:
       return _getPageRoute(

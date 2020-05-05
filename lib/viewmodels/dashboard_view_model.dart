@@ -73,6 +73,9 @@ class DashboardViewModel extends BaseModel {
   }
 
   void navigateToEventDetails(CleanupEvent event) {
-    _navigationService.navigateTo(EventDetailsScreenRoute);
+    _navigationService.navigateTo(
+      EventDetailsScreenRoute,
+      arguments: event,
+    );
   }
 }
