@@ -22,61 +22,61 @@ class SignUpScreen extends StatelessWidget {
               color: Colors.black,
             ),
           ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Sign Up',
-                  style: TextStyle(fontSize: 38),
-                ),
-                TextField(
-                  decoration: InputDecoration(
-                    labelText: "Full Name",
-                  ),
-                  controller: fullNameController,
-                ),
-                TextField(
-                  autocorrect: false,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    labelText: "Email",
-                  ),
-                  controller: emailController,
-                ),
-                TextField(
-                  autocorrect: false,
-                  decoration: InputDecoration(
-                    labelText: "Password",
-                  ),
-                  obscureText: true,
-                  controller: passwordController,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                SizedBox(
-                  height: 35,
-                  child: (model.hasErrors
-                      ? Text(
-                          model.errors,
-                          style: TextStyle(color: Colors.red),
-                        )
-                      : Container()),
-                ),
-                LoadingButton(
-                  title: "Sign Up",
-                  isLoading: model.isLoading,
-                  onPressed: () => model.signUp(
-                    fullName: fullNameController.text,
-                    email: emailController.text,
-                    password: passwordController.text,
-                  ),
-                ),
-              ],
+          body: ListView(
+            padding: const EdgeInsets.only(
+              top: 30,
+              left: 30,
+              right: 30,
             ),
+            children: <Widget>[
+              Text(
+                'Sign Up',
+                style: TextStyle(fontSize: 38),
+              ),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: "Full Name",
+                ),
+                controller: fullNameController,
+              ),
+              TextField(
+                autocorrect: false,
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                  labelText: "Email",
+                ),
+                controller: emailController,
+              ),
+              TextField(
+                autocorrect: false,
+                decoration: InputDecoration(
+                  labelText: "Password",
+                ),
+                obscureText: true,
+                controller: passwordController,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                height: 35,
+                child: (model.hasErrors
+                    ? Text(
+                        model.errors,
+                        style: TextStyle(color: Colors.red),
+                      )
+                    : Container()),
+              ),
+              LoadingButton(
+                title: "Sign Up",
+                isLoading: model.isLoading,
+                onPressed: () => model.signUp(
+                  fullName: fullNameController.text,
+                  email: emailController.text,
+                  password: passwordController.text,
+                ),
+              ),
+            ],
           ),
         );
       },
