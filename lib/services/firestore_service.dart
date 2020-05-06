@@ -152,7 +152,7 @@ class FirestoreService {
     }
 
     try {
-      await _volunteersCollectionRef.add({
+      await _volunteersCollectionRef.document('${eventUid}_$userUid').setData({
         'event_uid': eventUid,
         'user_uid': userUid,
       });
@@ -166,14 +166,12 @@ class FirestoreService {
     String userUid,
   }) async {
     try {
-      var result = await _volunteersCollectionRef
-          .where('event_uid', isEqualTo: eventUid)
-          .where('user_uid', isEqualTo: userUid)
-          .getDocuments();
+      var result =
+          await _volunteersCollectionRef.document('${eventUid}_$userUid').get();
 
-      // if there's already event_uid<->user_uid in database
-      // it means user is part of event
-      return result.documents.isNotEmpty;
+      // if "eventUid_userUid" exists
+      // the user is part of the event
+      return result.exists;
     } catch (e) {
       return e.message;
     }
