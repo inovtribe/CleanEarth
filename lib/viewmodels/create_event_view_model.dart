@@ -35,6 +35,8 @@ class CreateEventViewModel extends BaseModel {
       endTime: endTime.toUtc(),
       position: position,
       radius: radius,
+      volunteerCount: 0,
+      createdAt: DateTime.now().toUtc(),
     );
     var result = await _firestoreService.createEvent(event);
     setIsLoading(false);
