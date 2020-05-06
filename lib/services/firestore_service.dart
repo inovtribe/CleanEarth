@@ -24,11 +24,18 @@ class FirestoreService {
   /// key in document snapshot where location data is stored
   String field = 'position';
 
+  StreamSubscription _nearbyReportsSubscription;
   final StreamController<ReportsStats> _nearbyReportsStatsController =
       StreamController<ReportsStats>.broadcast();
 
+  StreamSubscription _nearbyEventsSubscription;
   final StreamController<List<CleanupEvent>> _nearbyEventsController =
       StreamController<List<CleanupEvent>>.broadcast();
+
+  // This will hold the stream of reports of current selected event
+  StreamSubscription _eventSubscription;
+  final StreamController<CleanupEvent> _specificEventController =
+      StreamController<CleanupEvent>.broadcast();
 
   Future createEvent(CleanupEvent event) async {
     try {
@@ -59,7 +66,7 @@ class FirestoreService {
     double radius = 50.0,
   }) {
     try {
-      geo
+      _nearbyEventsSubscription = geo
           .collection(collectionRef: _eventsCollectionRef)
           .within(center: point, radius: radius, field: field)
           .listen((snapshot) {
@@ -79,12 +86,16 @@ class FirestoreService {
     return _nearbyEventsController.stream;
   }
 
+  void cancelNearbyEventsSubscription() {
+    _nearbyEventsSubscription.cancel();
+  }
+
   Stream listenToNearbyReportsStats({
     @required GeoFirePoint point,
     double radius = 25.0,
   }) {
     try {
-      geo
+      _nearbyReportsSubscription = geo
           .collection(collectionRef: _reportsCollectionRef)
           .within(
             center: point,
@@ -116,6 +127,10 @@ class FirestoreService {
     }
 
     return _nearbyReportsStatsController.stream;
+  }
+
+  void cancelNearbyStatsSubscription() {
+    _nearbyReportsSubscription.cancel();
   }
 
   Future createUser(User user) async {
@@ -159,6 +174,30 @@ class FirestoreService {
     } catch (e) {
       return e.message;
     }
+  }
+
+  Stream listenToEvent({
+    String eventUid,
+  }) {
+    try {
+      _eventSubscription = _eventsCollectionRef
+          .document(eventUid)
+          .snapshots()
+          .listen((snapshot) {
+        if (snapshot.data != null) {
+          _specificEventController
+              .add(CleanupEvent.fromJson(snapshot.data, snapshot.documentID));
+        }
+      });
+    } catch (e) {
+      print(e.message);
+    }
+
+    return _specificEventController.stream;
+  }
+
+  void cancelEventSubscription() {
+    _eventSubscription.cancel();
   }
 
   Future isUserPartOfEvent({

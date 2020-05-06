@@ -61,6 +61,8 @@ class DashboardViewModel extends BaseModel {
   void dispose() {
     _eventsStreamSubscription.cancel();
     _statsStreamSubscription.cancel();
+    _firestoreService.cancelNearbyEventsSubscription();
+    _firestoreService.cancelNearbyStatsSubscription();
     super.dispose();
   }
 
