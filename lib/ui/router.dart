@@ -45,9 +45,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         viewToShow: CreateEventScreen(),
       );
     case CreateReportScreenRoute:
+      var eventUid = settings.arguments as String;
       return _getPageRoute(
         routeName: settings.name,
-        viewToShow: CreateReportScreen(),
+        viewToShow: CreateReportScreen(
+          eventUid: eventUid,
+        ),
       );
     default:
       return MaterialPageRoute(

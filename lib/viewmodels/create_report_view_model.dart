@@ -47,7 +47,9 @@ class CreateReportViewModel extends BaseModel {
     notifyListeners();
   }
 
-  Future createReport() async {
+  Future createReport({
+    String eventUid,
+  }) async {
     if (image == null) {
       return;
     }
@@ -74,6 +76,7 @@ class CreateReportViewModel extends BaseModel {
         reporterUid: _authenticationService.currentUser.uid,
         cleanerUid: _cleaned ? _authenticationService.currentUser.uid : null,
         imageData: result,
+        eventUid: eventUid,
       );
 
       var reportRes = await _firestoreService.createReport(report);
@@ -81,7 +84,11 @@ class CreateReportViewModel extends BaseModel {
       if (reportRes is String) {
         setErrors(reportRes);
       } else {
-        _navigationService.navigateTo(DashboardScreenRoute);
+        if (eventUid != null && eventUid.isNotEmpty) {
+          _navigationService.pop();
+        } else {
+          _navigationService.navigateTo(DashboardScreenRoute);
+        }
       }
     }
 
