@@ -37,7 +37,7 @@ class ReportsStatsCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        stats.needHelp.toString(),
+                        stats.cleaned?.toString() ?? '0',
                         style: TextStyle(fontSize: 24),
                       ),
                       Text('need help'),
@@ -53,7 +53,7 @@ class ReportsStatsCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        stats.cleanedUp.toString(),
+                        stats.reported?.toString() ?? '0',
                         style: TextStyle(fontSize: 24),
                       ),
                       Text('cleaned up')

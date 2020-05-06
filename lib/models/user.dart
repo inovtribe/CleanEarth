@@ -1,31 +1,40 @@
 import 'package:flutter/foundation.dart';
+import 'package:timwan/models/reports_stats.dart';
 
-@immutable
 class User {
-  final String uid;
-  final String fullName;
-  final String email;
-  final String photoUrl;
+  String uid;
+  String fullName;
+  String email;
+  String photoUrl;
+  ReportsStats stats;
 
   User({
     @required this.uid,
     this.fullName,
     this.email,
     this.photoUrl,
+    this.stats,
   });
 
-  User.fromData(Map<String, dynamic> data)
-      : uid = data['uid'],
-        fullName = data['fullName'],
-        email = data['email'],
-        photoUrl = data['photoUrl'];
+  User.fromJson(Map<String, dynamic> json) {
+    uid = json['uid'];
+    fullName = json['full_name'];
+    email = json['email'];
+    photoUrl = json['photo_url'];
+    stats = json['stats'] != null
+        ? new ReportsStats.fromJson(
+            json['stats'],
+          )
+        : null;
+  }
 
   Map<String, dynamic> toJson() {
     return {
       'uid': uid,
-      'fullName': fullName,
+      'full_name': fullName,
       'email': email,
-      'photoUrl': photoUrl,
+      'photo_url': photoUrl,
+      'stats': stats?.toJson() ?? null,
     };
   }
 }

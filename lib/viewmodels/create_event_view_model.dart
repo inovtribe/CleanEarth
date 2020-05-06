@@ -30,9 +30,9 @@ class CreateEventViewModel extends BaseModel {
     var event = CleanupEvent(
       title: title,
       description: description,
+      owner: Owner(uid: user.uid, fullName: user.fullName),
       startTime: startTime.toUtc(),
       endTime: endTime.toUtc(),
-      ownerUid: user.uid,
       position: position,
       radius: radius,
     );

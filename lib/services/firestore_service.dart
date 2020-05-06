@@ -94,10 +94,10 @@ class FirestoreService {
 
           var stats = ReportsStats();
           for (var report in reports) {
-            if (report.active) {
-              stats.needHelp += 1;
+            if (report.cleanerUid != null) {
+              stats.cleaned += 1;
             } else {
-              stats.cleanedUp += 1;
+              stats.reported += 1;
             }
           }
 
@@ -126,7 +126,7 @@ class FirestoreService {
   Future getUser(String uid) async {
     try {
       var userData = await _usersCollectionRef.document(uid).get();
-      return User.fromData(userData.data);
+      return User.fromJson(userData.data);
     } catch (e) {
       // TODO: Find or create a way to repeat error handling without so much repeated code
       if (e is PlatformException) {

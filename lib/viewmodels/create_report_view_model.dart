@@ -68,12 +68,13 @@ class CreateReportViewModel extends BaseModel {
 
     if (result is ImageData) {
       var report = TrashReport(
-          active: !_active,
-          position: position,
-          tags: tags.map((tag) => tag.name).toList(),
-          timestamp: DateTime.now().toUtc(),
-          userId: _authenticationService.currentUser.uid,
-          imageData: result);
+        // TODO: add cleaner_uid if cleaned up
+        position: position,
+        tags: tags.map((tag) => tag.name).toList(),
+        createdAt: DateTime.now().toUtc(),
+        reporterUid: _authenticationService.currentUser.uid,
+        imageData: result,
+      );
 
       var reportRes = await _firestoreService.createReport(report);
 
