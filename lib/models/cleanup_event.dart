@@ -70,7 +70,7 @@ class CleanupEvent {
           )
         : null;
     volunteerCount = json['volunteer_count'];
-    createdAt = json['created_at'];
+    createdAt = (json['created_at'] as Timestamp).toDate();
   }
 
   Map<String, dynamic> toJson() {
