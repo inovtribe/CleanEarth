@@ -109,10 +109,10 @@ class CreateReportScreen extends StatelessWidget {
                 Row(
                   children: <Widget>[
                     Checkbox(
-                      value: model.active ?? false,
-                      onChanged: model.changeActive,
+                      value: model.cleaned ?? false,
+                      onChanged: model.changeCleanStatus,
                     ),
-                    Text('Did you clean it up?')
+                    Text('I cleaned it up!')
                   ],
                 ),
                 Container(

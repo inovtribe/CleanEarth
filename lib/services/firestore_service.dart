@@ -92,7 +92,10 @@ class FirestoreService {
           var reports =
               snapshot.map((document) => TrashReport.fromJson(document.data));
 
-          var stats = ReportsStats();
+          var stats = ReportsStats(
+            cleaned: 0,
+            reported: 0,
+          );
           for (var report in reports) {
             if (report.cleanerUid != null) {
               stats.cleaned += 1;

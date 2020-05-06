@@ -27,8 +27,8 @@ class CreateReportViewModel extends BaseModel {
   File image;
   List<TrashTag> tags = [];
 
-  bool _active = false;
-  bool get active => _active;
+  bool _cleaned = false;
+  bool get cleaned => _cleaned;
 
   Future selectImageFromCamera() async {
     setIsLoading(true);
@@ -42,8 +42,8 @@ class CreateReportViewModel extends BaseModel {
     setIsLoading(false);
   }
 
-  void changeActive(bool value) {
-    _active = value;
+  void changeCleanStatus(bool value) {
+    _cleaned = value;
     notifyListeners();
   }
 
@@ -68,11 +68,11 @@ class CreateReportViewModel extends BaseModel {
 
     if (result is ImageData) {
       var report = TrashReport(
-        // TODO: add cleaner_uid if cleaned up
         position: position,
         tags: tags.map((tag) => tag.name).toList(),
         createdAt: DateTime.now().toUtc(),
         reporterUid: _authenticationService.currentUser.uid,
+        cleanerUid: _cleaned ? _authenticationService.currentUser.uid : null,
         imageData: result,
       );
 
