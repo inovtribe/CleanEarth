@@ -13,7 +13,6 @@ class ReportsStatsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     int cleaned = stats?.cleaned ?? 0;
     int reported = stats?.reported ?? 0;
-    int needHelp = reported - cleaned;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,10 +39,10 @@ class ReportsStatsCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        needHelp.toString(),
+                        cleaned.toString(),
                         style: TextStyle(fontSize: 24),
                       ),
-                      Text('need help'),
+                      Text('cleaned up'),
                     ],
                   ),
                 ),
@@ -56,10 +55,10 @@ class ReportsStatsCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        cleaned.toString(),
+                        reported.toString(),
                         style: TextStyle(fontSize: 24),
                       ),
-                      Text('cleaned up')
+                      Text('reports')
                     ],
                   ),
                 ),
