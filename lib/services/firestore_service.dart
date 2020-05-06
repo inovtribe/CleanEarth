@@ -16,6 +16,8 @@ class FirestoreService {
       Firestore.instance.collection('events');
   final CollectionReference _reportsCollectionRef =
       Firestore.instance.collection('reports');
+  final CollectionReference _volunteersCollectionRef =
+      Firestore.instance.collection('volunteers');
 
   Geoflutterfire geo = Geoflutterfire();
 
@@ -62,7 +64,10 @@ class FirestoreService {
           .within(center: point, radius: radius, field: field)
           .listen((snapshot) {
         var events = snapshot
-            .map((document) => CleanupEvent.fromJson(document.data))
+            .map((document) => CleanupEvent.fromJson(
+                  document.data,
+                  document.documentID,
+                ))
             .toList();
 
         _nearbyEventsController.add(events);
@@ -136,6 +141,42 @@ class FirestoreService {
         return e.message;
       }
       return e.toString();
+    }
+  }
+
+  Future addUserToEvent({
+    String eventUid,
+    String userUid,
+  }) async {
+    if (eventUid.isEmpty || userUid.isEmpty) {
+      return;
+    }
+    
+    try {
+      await _volunteersCollectionRef.add({
+        'event_uid': eventUid,
+        'user_uid': userUid,
+      });
+    } catch (e) {
+      return e.message;
+    }
+  }
+
+  Future isUserPartOfEvent({
+    String eventUid,
+    String userUid,
+  }) async {
+    try {
+      var result = await _volunteersCollectionRef
+          .where('event_uid', isEqualTo: eventUid)
+          .where('user_uid', isEqualTo: userUid)
+          .getDocuments();
+
+      // if there's already event_uid<->user_uid in database
+      // it means user is part of event
+      return result.documents.isNotEmpty;
+    } catch (e) {
+      return e.message;
     }
   }
 }

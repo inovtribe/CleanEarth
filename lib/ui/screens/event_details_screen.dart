@@ -15,6 +15,7 @@ class EventDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
       viewModelBuilder: () => EventDetailsViewModel(),
+      onModelReady: (model) async => model.initilize(event.uid),
       builder: (context, model, _) {
         return Scaffold(
           backgroundColor: Colors.white,
@@ -42,8 +43,24 @@ class EventDetailsScreen extends StatelessWidget {
                   fontSize: 15,
                   color: Colors.grey[700],
                 ),
-              )
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                '- ${event.owner.fullName}',
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.grey[800],
+                ),
+              ),
             ],
+          ),
+          floatingActionButton: FloatingActionButton.extended(
+            onPressed: () => model.onFabPressed(event.uid),
+            label: Text(
+              model.isUserPartOfEvent ? 'Create Report' : 'Volunteer',
+            ),
           ),
         );
       },

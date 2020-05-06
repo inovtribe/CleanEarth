@@ -5,6 +5,9 @@ import 'package:timwan/models/reports_stats.dart';
 
 class CleanupEvent {
   ///
+  String uid;
+
+  ///
   String title;
 
   ///
@@ -47,7 +50,8 @@ class CleanupEvent {
     this.createdAt,
   });
 
-  CleanupEvent.fromJson(Map<String, dynamic> json) {
+  CleanupEvent.fromJson(Map<String, dynamic> json, String _uid) {
+    uid = _uid;
     title = json['title'];
     description = json['description'];
     owner = json['owner'] != null
