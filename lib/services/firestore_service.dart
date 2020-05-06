@@ -104,9 +104,8 @@ class FirestoreService {
           for (var report in reports) {
             if (report.cleanerUid != null) {
               stats.cleaned += 1;
-            } else {
-              stats.reported += 1;
             }
+            stats.reported += 1;
           }
 
           _nearbyReportsStatsController.add(stats);
@@ -151,7 +150,7 @@ class FirestoreService {
     if (eventUid.isEmpty || userUid.isEmpty) {
       return;
     }
-    
+
     try {
       await _volunteersCollectionRef.add({
         'event_uid': eventUid,
