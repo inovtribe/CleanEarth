@@ -25,26 +25,25 @@ class EventDetailsScreen extends StatelessWidget {
               color: Colors.black,
             ),
           ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 15.0,
+          body: ListView(
+            padding: const EdgeInsets.only(
+              top: 30,
+              left: 30,
+              right: 30,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  event.title,
-                  style: TextStyle(fontSize: 28),
+            children: <Widget>[
+              Text(
+                event.title,
+                style: TextStyle(fontSize: 28),
+              ),
+              Text(
+                event.description,
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.grey[700],
                 ),
-                Text(
-                  event.description,
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.grey[700],
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
           ),
         );
       },
