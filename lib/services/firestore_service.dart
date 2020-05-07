@@ -33,9 +33,9 @@ class FirestoreService {
       StreamController<List<CleanupEvent>>.broadcast();
 
   // This will hold the stream of reports of current selected event
-  StreamSubscription _eventSubscription;
-  final StreamController<CleanupEvent> _specificEventController =
-      StreamController<CleanupEvent>.broadcast();
+  StreamSubscription _reportsFromEventSubscription;
+  final StreamController<List<TrashReport>> _reportsFromEventController =
+      StreamController<List<TrashReport>>.broadcast();
 
   Future createEvent(CleanupEvent event) async {
     try {
@@ -176,28 +176,32 @@ class FirestoreService {
     }
   }
 
-  Stream listenToEvent({
+  Stream listenToReportsFromEvent({
     String eventUid,
   }) {
     try {
-      _eventSubscription = _eventsCollectionRef
-          .document(eventUid)
+      _reportsFromEventSubscription = _reportsCollectionRef
+          .where(
+            'event_uid',
+            isEqualTo: eventUid,
+          )
           .snapshots()
           .listen((snapshot) {
-        if (snapshot.data != null) {
-          _specificEventController
-              .add(CleanupEvent.fromJson(snapshot.data, snapshot.documentID));
-        }
+        var reports = snapshot.documents
+            .map((doc) => TrashReport.fromJson(doc.data))
+            .toList();
+
+        _reportsFromEventController.add(reports);
       });
     } catch (e) {
       print(e.message);
     }
 
-    return _specificEventController.stream;
+    return _reportsFromEventController.stream;
   }
 
-  void cancelEventSubscription() {
-    _eventSubscription.cancel();
+  void cancelReportsFromEventSubscription() {
+    _reportsFromEventSubscription.cancel();
   }
 
   Future isUserPartOfEvent({

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:timwan/constants/route_names.dart';
 import 'package:timwan/locator.dart';
-import 'package:timwan/models/cleanup_event.dart';
+import 'package:timwan/models/trash_report.dart';
 import 'package:timwan/services/authentication_service.dart';
 import 'package:timwan/services/firestore_service.dart';
 import 'package:timwan/services/navigation_service.dart';
@@ -18,8 +18,8 @@ class EventDetailsViewModel extends BaseModel {
   bool get isUserPartOfEvent => _isUserPartOfEvent;
 
   StreamSubscription _eventStreamSubscription;
-  CleanupEvent _streamEvent;
-  CleanupEvent get streamEvent => _streamEvent;
+  List<TrashReport> _reports;
+  List<TrashReport> get reports => _reports;
 
   void initilize(String eventUid) async {
     setIsLoading(true);
@@ -30,12 +30,12 @@ class EventDetailsViewModel extends BaseModel {
       userUid: _authenticationService.currentUser.uid,
     );
     _eventStreamSubscription = _firestoreService
-        .listenToEvent(
+        .listenToReportsFromEvent(
       eventUid: eventUid,
     )
         .listen((data) {
       if (data != null) {
-        _streamEvent = data;
+        _reports = data;
       }
     });
     setIsLoading(false);
@@ -66,7 +66,7 @@ class EventDetailsViewModel extends BaseModel {
   @override
   void dispose() {
     _eventStreamSubscription.cancel();
-    _firestoreService.cancelEventSubscription();
+    _firestoreService.cancelReportsFromEventSubscription();
     super.dispose();
   }
 }
