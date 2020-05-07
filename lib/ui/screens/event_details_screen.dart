@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:timwan/models/cleanup_event.dart';
+import 'package:timwan/ui/widgets/reports_stats_card.dart';
 import 'package:timwan/viewmodels/event_details_view_model.dart';
 
 class EventDetailsScreen extends StatelessWidget {
@@ -53,6 +54,9 @@ class EventDetailsScreen extends StatelessWidget {
                   fontSize: 15,
                   color: Colors.grey[800],
                 ),
+              ),
+              ReportsStatsCard(
+                stats: model.stats,
               ),
             ],
           ),

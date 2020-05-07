@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:timwan/constants/route_names.dart';
 import 'package:timwan/locator.dart';
+import 'package:timwan/models/reports_stats.dart';
 import 'package:timwan/models/trash_report.dart';
 import 'package:timwan/services/authentication_service.dart';
 import 'package:timwan/services/firestore_service.dart';
@@ -21,6 +22,9 @@ class EventDetailsViewModel extends BaseModel {
   List<TrashReport> _reports;
   List<TrashReport> get reports => _reports;
 
+  ReportsStats _stats = ReportsStats(cleaned: 0, reported: 0);
+  ReportsStats get stats => _stats;
+
   void initilize(String eventUid) async {
     setIsLoading(true);
     setErrors("");
@@ -36,6 +40,8 @@ class EventDetailsViewModel extends BaseModel {
         .listen((data) {
       if (data != null) {
         _reports = data;
+        calculateStats();
+        setIsLoading(false);
       }
     });
     setIsLoading(false);
@@ -60,6 +66,19 @@ class EventDetailsViewModel extends BaseModel {
       );
       initilize(eventUid);
       setIsLoading(false);
+    }
+  }
+
+  void calculateStats() {
+    if (reports != null) {
+      ReportsStats newStats = ReportsStats(cleaned: 0, reported: 0);
+      for (var report in reports) {
+        if (report.cleanerUid != null || report.cleanerUid.isNotEmpty) {
+          newStats.cleaned++;
+        }
+        newStats.reported++;
+      }
+      _stats = newStats;
     }
   }
 
