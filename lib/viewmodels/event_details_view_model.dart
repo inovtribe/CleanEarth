@@ -63,6 +63,7 @@ class EventDetailsViewModel extends BaseModel {
       _firestoreService.addUserToEvent(
         eventUid: eventUid,
         userUid: _authenticationService.currentUser.uid,
+        fullName: _authenticationService.currentUser.fullName,
       );
       initilize(eventUid);
       setIsLoading(false);

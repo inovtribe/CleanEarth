@@ -161,6 +161,7 @@ class FirestoreService {
   Future addUserToEvent({
     String eventUid,
     String userUid,
+    String fullName,
   }) async {
     if (eventUid.isEmpty || userUid.isEmpty) {
       return;
@@ -170,6 +171,7 @@ class FirestoreService {
       await _volunteersCollectionRef.document('${eventUid}_$userUid').setData({
         'event_uid': eventUid,
         'user_uid': userUid,
+        'full_name': fullName,
       });
     } catch (e) {
       return e.message;
