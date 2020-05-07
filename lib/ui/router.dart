@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:timwan/constants/route_names.dart';
 import 'package:timwan/models/cleanup_event.dart';
+import 'package:timwan/models/trash_report.dart';
 import 'package:timwan/ui/screens/create_event_screen.dart';
 import 'package:timwan/ui/screens/create_report_screen.dart';
 import 'package:timwan/ui/screens/dashboard_screen.dart';
 import 'package:timwan/ui/screens/event_details_screen.dart';
+import 'package:timwan/ui/screens/reports_map_screen.dart';
 import 'package:timwan/ui/screens/signin_screen.dart';
 import 'package:timwan/ui/screens/signup_screen.dart';
 import 'package:timwan/ui/screens/user_details_screen.dart';
@@ -50,6 +52,14 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         routeName: settings.name,
         viewToShow: CreateReportScreen(
           eventUid: eventUid,
+        ),
+      );
+    case ReportsMapScreenRoute:
+      var reports = settings.arguments as List<TrashReport>;
+      return _getPageRoute(
+        routeName: settings.name,
+        viewToShow: ReportsMapScreen(
+          reports: reports,
         ),
       );
     default:

@@ -58,6 +58,25 @@ class EventDetailsScreen extends StatelessWidget {
               ReportsStatsCard(
                 stats: model.stats,
               ),
+              SizedBox(
+                height: 5,
+              ),
+              InkWell(
+                onTap: model.navigateToReportsMapScreen,
+                child: Container(
+                  padding: const EdgeInsets.only(
+                    top: 5,
+                    bottom: 5,
+                    left: 3,
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      Icon(Icons.arrow_forward),
+                      Text('View Reports'),
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
           floatingActionButton: FloatingActionButton.extended(

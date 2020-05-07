@@ -83,6 +83,13 @@ class EventDetailsViewModel extends BaseModel {
     }
   }
 
+  void navigateToReportsMapScreen() {
+    _navigationService.navigateTo(
+      ReportsMapScreenRoute,
+      arguments: _reports,
+    );
+  }
+
   @override
   void dispose() {
     _eventStreamSubscription.cancel();
