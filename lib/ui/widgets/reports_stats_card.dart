@@ -17,15 +17,6 @@ class ReportsStatsCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          'Nearby Reports',
-          style: TextStyle(
-            fontSize: 20,
-          ),
-        ),
-        SizedBox(
-          height: 15,
-        ),
         Container(
           // margin: const EdgeInsets.all(12),
           child: Row(
