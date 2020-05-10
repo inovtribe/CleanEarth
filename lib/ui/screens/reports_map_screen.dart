@@ -4,10 +4,12 @@ import 'package:timwan/models/trash_report.dart';
 
 class ReportsMapScreen extends StatelessWidget {
   final List<TrashReport> reports;
+  final Function({String reportUid}) onMarkCleaned;
 
   const ReportsMapScreen({
     Key key,
     this.reports,
+    this.onMarkCleaned,
   }) : super(key: key);
 
   @override
@@ -51,7 +53,16 @@ class ReportsMapScreen extends StatelessWidget {
     return reports
         .map((e) => Marker(
             markerId: MarkerId(e.hashCode.toString()),
-            infoWindow: InfoWindow(title: e.tags.toString()),
+            infoWindow: InfoWindow(
+              title: e.tags.toString(),
+              snippet: (e.cleanerUid == null || e.cleanerUid.isEmpty)
+                  ? 'Tap to mark it cleaned!'
+                  : 'Report is cleaned!',
+              onTap: () {
+                if (e.cleanerUid == null || e.cleanerUid.isEmpty)
+                  onMarkCleaned(reportUid: e.uid);
+              },
+            ),
             icon: BitmapDescriptor.defaultMarkerWithHue(
               e.cleanerUid == null || e.cleanerUid.isEmpty
                   ? BitmapDescriptor.hueRed

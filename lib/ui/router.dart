@@ -55,11 +55,14 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         ),
       );
     case ReportsMapScreenRoute:
-      var reports = settings.arguments as List<TrashReport>;
+      var args = settings.arguments as Map<String, dynamic>;
+      var reports = args['reports'];
+      var cb = args['cb'];
       return _getPageRoute(
         routeName: settings.name,
         viewToShow: ReportsMapScreen(
           reports: reports,
+          onMarkCleaned: cb,
         ),
       );
     default:

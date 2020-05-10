@@ -97,10 +97,20 @@ class EventDetailsViewModel extends BaseModel {
     }
   }
 
+  void markCleanedCallback({String reportUid}) {
+    _firestoreService.markReportCleaned(
+      reportUid: reportUid,
+      userUid: _authenticationService.currentUser.uid,
+    );
+  }
+
   void navigateToReportsMapScreen() {
     _navigationService.navigateTo(
       ReportsMapScreenRoute,
-      arguments: _reports,
+      arguments: {
+        'reports': _reports,
+        'cb': markCleanedCallback,
+      },
     );
   }
 
