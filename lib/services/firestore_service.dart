@@ -110,8 +110,10 @@ class FirestoreService {
           )
           .listen((snapshot) {
         if (snapshot.isNotEmpty) {
-          var reports =
-              snapshot.map((document) => TrashReport.fromJson(document.data));
+          var reports = snapshot.map((document) => TrashReport.fromJson(
+                document.data,
+                document.documentID,
+              ));
 
           var stats = ReportsStats(
             cleaned: 0,
@@ -183,6 +185,16 @@ class FirestoreService {
     }
   }
 
+  Future markReportCleaned({String reportUid, String userUid}) async {
+    try {
+      await _reportsCollectionRef.document(reportUid).setData({
+        'cleaner_uid': userUid,
+      }, merge: true);
+    } catch (e) {
+      return e.message;
+    }
+  }
+
   Stream listenToReportsFromEvent({
     String eventUid,
   }) {
@@ -195,7 +207,10 @@ class FirestoreService {
           .snapshots()
           .listen((snapshot) {
         var reports = snapshot.documents
-            .map((doc) => TrashReport.fromJson(doc.data))
+            .map((doc) => TrashReport.fromJson(
+                  doc.data,
+                  doc.documentID,
+                ))
             .toList();
 
         _reportsFromEventController.add(reports);

@@ -3,6 +3,9 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:timwan/models/image_data.dart';
 
 class TrashReport {
+  /// Unique Id of report
+  String uid;
+
   /// User Id of the trash reporter.
   String reporterUid;
 
@@ -34,7 +37,8 @@ class TrashReport {
     this.createdAt,
   });
 
-  TrashReport.fromJson(Map<String, dynamic> json) {
+  TrashReport.fromJson(Map<String, dynamic> json, String reportUid) {
+    uid = reportUid;
     reporterUid = json['reporter_uid'];
     tags = json['tags'].cast<String>();
     cleanerUid = json['cleaner_uid'];
