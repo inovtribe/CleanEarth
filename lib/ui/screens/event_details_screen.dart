@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:timwan/models/cleanup_event.dart';
+import 'package:timwan/models/user.dart';
 import 'package:timwan/ui/widgets/reports_stats_card.dart';
 import 'package:timwan/viewmodels/event_details_view_model.dart';
 
@@ -76,7 +77,28 @@ class EventDetailsScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-              )
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Text(
+                'Volunteers',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+              if (model.volunteers != null)
+                for (User volunteer in model.volunteers)
+                  ListTile(
+                    leading: CircleAvatar(
+                      child: Text(volunteer.fullName[0]),
+                    ),
+                    title: Text(
+                      volunteer.fullName,
+                    ),
+                  ),
+              if (model.volunteers == null || model.volunteers.isEmpty)
+                Text(':( No volunteers for this event, consider volunteering!')
             ],
           ),
           floatingActionButton: FloatingActionButton.extended(

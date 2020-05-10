@@ -211,7 +211,7 @@ class FirestoreService {
     _reportsFromEventSubscription.cancel();
   }
 
-  Stream listenToUsersFromEvent({
+  Stream listenToVolunteersFromEvent({
     String eventUid,
   }) {
     try {

@@ -4,6 +4,7 @@ import 'package:timwan/constants/route_names.dart';
 import 'package:timwan/locator.dart';
 import 'package:timwan/models/reports_stats.dart';
 import 'package:timwan/models/trash_report.dart';
+import 'package:timwan/models/user.dart';
 import 'package:timwan/services/authentication_service.dart';
 import 'package:timwan/services/firestore_service.dart';
 import 'package:timwan/services/navigation_service.dart';
@@ -22,6 +23,10 @@ class EventDetailsViewModel extends BaseModel {
   List<TrashReport> _reports;
   List<TrashReport> get reports => _reports;
 
+  StreamSubscription _volunteersStreamSubscription;
+  List<User> _volunteers;
+  List<User> get volunteers => _volunteers;
+
   ReportsStats _stats = ReportsStats(cleaned: 0, reported: 0);
   ReportsStats get stats => _stats;
 
@@ -33,10 +38,9 @@ class EventDetailsViewModel extends BaseModel {
       eventUid: eventUid,
       userUid: _authenticationService.currentUser.uid,
     );
+
     _eventStreamSubscription = _firestoreService
-        .listenToReportsFromEvent(
-      eventUid: eventUid,
-    )
+        .listenToReportsFromEvent(eventUid: eventUid)
         .listen((data) {
       if (data != null) {
         _reports = data;
@@ -44,6 +48,16 @@ class EventDetailsViewModel extends BaseModel {
         setIsLoading(false);
       }
     });
+
+    _volunteersStreamSubscription = _firestoreService
+        .listenToVolunteersFromEvent(eventUid: eventUid)
+        .listen((data) {
+      if (data != null) {
+        _volunteers = data;
+        setIsLoading(true);
+      }
+    });
+
     setIsLoading(false);
 
     if (result is bool) {
@@ -93,7 +107,9 @@ class EventDetailsViewModel extends BaseModel {
   @override
   void dispose() {
     _eventStreamSubscription.cancel();
+    _volunteersStreamSubscription.cancel();
     _firestoreService.cancelReportsFromEventSubscription();
+    _firestoreService.cancelVolunteerssFromEventSubscription();
     super.dispose();
   }
 }
