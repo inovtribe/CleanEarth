@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:timwan/models/cleanup_event.dart';
 import 'package:timwan/models/user.dart';
+import 'package:timwan/ui/widgets/event_location_tile.dart';
 import 'package:timwan/ui/widgets/reports_stats_card.dart';
 import 'package:timwan/viewmodels/event_details_view_model.dart';
 
@@ -81,6 +82,17 @@ class EventDetailsScreen extends StatelessWidget {
               SizedBox(
                 height: 15,
               ),
+              SizedBox(
+                height: 200,
+                child: EventLocationTile(
+                  latitude: event.position.latitude,
+                  longitude: event.position.longitude,
+                  radius: event.radius,
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
               Text(
                 'Volunteers',
                 style: TextStyle(
@@ -98,11 +110,17 @@ class EventDetailsScreen extends StatelessWidget {
                     ),
                   ),
               if (model.volunteers == null || model.volunteers.isEmpty)
-                Text(':( No volunteers for this event, consider volunteering!')
+                Text(':( No volunteers for this event, consider volunteering!'),
+              SizedBox(
+                height: 80,
+              ),
             ],
           ),
           floatingActionButton: FloatingActionButton.extended(
             onPressed: () => model.onFabPressed(event.uid),
+            icon: Icon(
+              model.isUserPartOfEvent ? Icons.add : Icons.pan_tool,
+            ),
             label: Text(
               model.isUserPartOfEvent ? 'Create Report' : 'Volunteer',
             ),

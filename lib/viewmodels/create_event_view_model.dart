@@ -20,7 +20,7 @@ class CreateEventViewModel extends BaseModel {
   Future createEvent({
     String title,
     String description,
-    int radius,
+    double radius,
   }) async {
     setIsLoading(true);
     setErrors("");

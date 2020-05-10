@@ -26,7 +26,7 @@ class CleanupEvent {
   GeoFirePoint position;
 
   /// Radius of cleanup event from center position.
-  int radius;
+  double radius;
 
   /// Computed stats for the specific event.
   ReportsStats stats;
@@ -67,7 +67,7 @@ class CleanupEvent {
             json['position']['geopoint'].longitude,
           )
         : null;
-    radius = json['radius'];
+    radius = json['radius'].toDouble();
     stats = json['stats'] != null
         ? new ReportsStats.fromJson(
             json['stats'],
