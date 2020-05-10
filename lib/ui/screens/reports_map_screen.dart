@@ -22,25 +22,27 @@ class ReportsMapScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        // TODO: extend maps to top of screen
-        title: Text(
-          'Reports',
-          style: TextStyle(color: Colors.black),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        iconTheme: IconThemeData(
-          color: Colors.black,
-        ),
-      ),
-      body: GoogleMap(
-        mapType: MapType.terrain,
-        markers: _createMarkers(),
-        initialCameraPosition: CameraPosition(
-          target: _center,
-          zoom: 10,
-        ),
+      body: Stack(
+        children: <Widget>[
+          GoogleMap(
+            mapType: MapType.terrain,
+            markers: _createMarkers(),
+            initialCameraPosition: CameraPosition(
+              target: _center,
+              zoom: 10,
+            ),
+          ),
+          SizedBox(
+            height: 80.0,
+            child: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0.0,
+              iconTheme: IconThemeData(
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
