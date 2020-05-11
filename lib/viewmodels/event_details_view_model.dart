@@ -88,7 +88,7 @@ class EventDetailsViewModel extends BaseModel {
     if (reports != null) {
       ReportsStats newStats = ReportsStats(cleaned: 0, reported: 0);
       for (var report in reports) {
-        if (report.cleanerUid != null || report.cleanerUid.isNotEmpty) {
+        if (report.cleanerUid != null && report.cleanerUid.isNotEmpty) {
           newStats.cleaned++;
         }
         newStats.reported++;
