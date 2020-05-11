@@ -49,7 +49,7 @@ class ReportsStatsCard extends StatelessWidget {
                         reported.toString(),
                         style: TextStyle(fontSize: 24),
                       ),
-                      Text('reports')
+                      Text('total reports')
                     ],
                   ),
                 ),
