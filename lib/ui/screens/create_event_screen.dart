@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:stacked/stacked.dart';
+import 'package:timwan/ui/widgets/event_location_tile.dart';
 import 'package:timwan/ui/widgets/loading_button.dart';
 import 'package:timwan/viewmodels/create_event_view_model.dart';
 
@@ -15,6 +16,9 @@ class CreateEventScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<CreateEventViewModel>.reactive(
       viewModelBuilder: () => CreateEventViewModel(),
+      onModelReady: (model) async {
+        await model.initialize();
+      },
       builder: (context, model, child) {
         return Scaffold(
           backgroundColor: Colors.white,
@@ -85,6 +89,23 @@ class CreateEventScreen extends StatelessWidget {
                   ),
                 ],
               ),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: Text(
+                  'Location',
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 200,
+                child: EventLocationTile(
+                  latitude: model.position.latitude,
+                  longitude: model.position.longitude,
+                  radius: model.radius,
+                ),
+              ),
               Divider(
                 height: 24,
               ),
@@ -95,9 +116,12 @@ class CreateEventScreen extends StatelessWidget {
                   model.createEvent(
                     title: titleController.text,
                     description: descriptionController.text,
-                    radius: int.tryParse(radiusController.text) ?? 3,
+                    radius: double.tryParse(radiusController.text) ?? 3,
                   );
                 },
+              ),
+              SizedBox(
+                height: 25,
               )
             ],
           ),

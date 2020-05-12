@@ -1,3 +1,4 @@
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:timwan/constants/route_names.dart';
 import 'package:timwan/locator.dart';
 import 'package:timwan/models/cleanup_event.dart';
@@ -17,6 +18,20 @@ class CreateEventViewModel extends BaseModel {
   DateTime startTime = DateTime.now();
   DateTime endTime = DateTime.now();
 
+  double _radius;
+  double get radius => _radius;
+
+  GeoFirePoint _position;
+  GeoFirePoint get position => _position;
+
+  Future initialize() async {
+    // default radius
+    _radius = 3;
+    setIsLoading(true);
+    _position = await _locationService.getUserLocation();
+    setIsLoading(false);
+  }
+
   Future createEvent({
     String title,
     String description,
@@ -26,15 +41,14 @@ class CreateEventViewModel extends BaseModel {
     setErrors("");
 
     var user = _authenticationService.currentUser;
-    var position = await _locationService.getUserLocation();
     var event = CleanupEvent(
       title: title,
       description: description,
       owner: Owner(uid: user.uid, fullName: user.fullName),
       startTime: startTime.toUtc(),
       endTime: endTime.toUtc(),
-      position: position,
-      radius: radius,
+      position: _position,
+      radius: _radius,
       volunteerCount: 0,
       createdAt: DateTime.now().toUtc(),
     );
