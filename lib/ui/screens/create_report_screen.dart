@@ -5,6 +5,13 @@ import 'package:timwan/ui/widgets/loading_button.dart';
 import 'package:timwan/viewmodels/create_report_view_model.dart';
 
 class CreateReportScreen extends StatelessWidget {
+  final String eventUid;
+
+  const CreateReportScreen({
+    Key key,
+    this.eventUid,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<CreateReportViewModel>.reactive(
@@ -109,10 +116,10 @@ class CreateReportScreen extends StatelessWidget {
                 Row(
                   children: <Widget>[
                     Checkbox(
-                      value: model.active ?? false,
-                      onChanged: model.changeActive,
+                      value: model.cleaned ?? false,
+                      onChanged: model.changeCleanStatus,
                     ),
-                    Text('Did you clean it up?')
+                    Text('I cleaned it up!')
                   ],
                 ),
                 Container(
@@ -120,7 +127,9 @@ class CreateReportScreen extends StatelessWidget {
                   child: LoadingButton(
                     title: "Submit",
                     isLoading: model.isLoading,
-                    onPressed: model.createReport,
+                    onPressed: () => model.createReport(
+                      eventUid: eventUid,
+                    ),
                   ),
                 )
               ],

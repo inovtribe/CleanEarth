@@ -20,7 +20,7 @@ class CreateEventViewModel extends BaseModel {
   Future createEvent({
     String title,
     String description,
-    int radius,
+    double radius,
   }) async {
     setIsLoading(true);
     setErrors("");
@@ -30,11 +30,13 @@ class CreateEventViewModel extends BaseModel {
     var event = CleanupEvent(
       title: title,
       description: description,
+      owner: Owner(uid: user.uid, fullName: user.fullName),
       startTime: startTime.toUtc(),
       endTime: endTime.toUtc(),
-      ownerUid: user.uid,
       position: position,
       radius: radius,
+      volunteerCount: 0,
+      createdAt: DateTime.now().toUtc(),
     );
     var result = await _firestoreService.createEvent(event);
     setIsLoading(false);

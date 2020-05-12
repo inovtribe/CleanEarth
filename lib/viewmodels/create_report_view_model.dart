@@ -27,8 +27,8 @@ class CreateReportViewModel extends BaseModel {
   File image;
   List<TrashTag> tags = [];
 
-  bool _active = false;
-  bool get active => _active;
+  bool _cleaned = false;
+  bool get cleaned => _cleaned;
 
   Future selectImageFromCamera() async {
     setIsLoading(true);
@@ -42,12 +42,14 @@ class CreateReportViewModel extends BaseModel {
     setIsLoading(false);
   }
 
-  void changeActive(bool value) {
-    _active = value;
+  void changeCleanStatus(bool value) {
+    _cleaned = value;
     notifyListeners();
   }
 
-  Future createReport() async {
+  Future createReport({
+    String eventUid,
+  }) async {
     if (image == null) {
       return;
     }
@@ -68,19 +70,25 @@ class CreateReportViewModel extends BaseModel {
 
     if (result is ImageData) {
       var report = TrashReport(
-          active: !_active,
-          position: position,
-          tags: tags.map((tag) => tag.name).toList(),
-          timestamp: DateTime.now().toUtc(),
-          userId: _authenticationService.currentUser.uid,
-          imageData: result);
+        position: position,
+        tags: tags.map((tag) => tag.name).toList(),
+        createdAt: DateTime.now().toUtc(),
+        reporterUid: _authenticationService.currentUser.uid,
+        cleanerUid: _cleaned ? _authenticationService.currentUser.uid : null,
+        imageData: result,
+        eventUid: eventUid,
+      );
 
       var reportRes = await _firestoreService.createReport(report);
 
       if (reportRes is String) {
         setErrors(reportRes);
       } else {
-        _navigationService.navigateTo(DashboardScreenRoute);
+        if (eventUid != null && eventUid.isNotEmpty) {
+          _navigationService.pop();
+        } else {
+          _navigationService.navigateTo(DashboardScreenRoute);
+        }
       }
     }
 

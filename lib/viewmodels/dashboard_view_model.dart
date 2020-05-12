@@ -61,6 +61,8 @@ class DashboardViewModel extends BaseModel {
   void dispose() {
     _eventsStreamSubscription.cancel();
     _statsStreamSubscription.cancel();
+    _firestoreService.cancelNearbyEventsSubscription();
+    _firestoreService.cancelNearbyStatsSubscription();
     super.dispose();
   }
 
@@ -70,5 +72,12 @@ class DashboardViewModel extends BaseModel {
 
   void navigateToUserDetails() {
     _navigationService.navigateTo(UserDetailsScreenRoute);
+  }
+
+  void navigateToEventDetails(CleanupEvent event) {
+    _navigationService.navigateTo(
+      EventDetailsScreenRoute,
+      arguments: event,
+    );
   }
 }

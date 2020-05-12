@@ -18,41 +18,49 @@ class DashboardScreen extends StatelessWidget {
         builder: (context, model, child) {
           return Scaffold(
             backgroundColor: Colors.white,
-            body: Padding(
+            body: ListView(
               padding: const EdgeInsets.only(
-                top: 30.0,
-                left: 20.0,
-                right: 20.0,
+                top: 30,
+                left: 30,
+                right: 30,
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        IconButton(
-                          icon: Icon(Icons.person),
-                          onPressed: model.navigateToUserDetails,
-                        )
-                      ],
-                    ),
+              children: <Widget>[
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(Icons.person),
+                        onPressed: model.navigateToUserDetails,
+                      )
+                    ],
                   ),
-                  ReportsStatsCard(
-                    stats: model.stats,
+                ),
+                Text(
+                  'Nearby Reports',
+                  style: TextStyle(
+                    fontSize: 20,
                   ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Nearby Events',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ],
-                    ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                ReportsStatsCard(
+                  stats: model.stats,
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Nearby Events',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ],
                   ),
+                ),
+                if (model.events != null && model.events.length > 0)
                   Container(
                     height: 250,
                     child: ListView.builder(
@@ -62,15 +70,19 @@ class DashboardScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return CleanupEventTile(
                           event: model.events[index],
+                          onTap: () =>
+                              model.navigateToEventDetails(model.events[index]),
                         );
                       },
                     ),
-                  )
-                ],
-              ),
+                  ),
+                if (model.events == null || model.events.length == 0)
+                  Container(
+                    child: Text('No nearby cleanup events found :('),
+                  ),
+              ],
             ),
             floatingActionButton: FloatingActionButton(
-              // TODO: need to go to create report
               onPressed: model.navigateToCreateReport,
               child: Icon(Icons.camera_alt),
             ),

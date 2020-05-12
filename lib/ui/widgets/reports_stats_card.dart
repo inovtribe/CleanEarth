@@ -11,19 +11,12 @@ class ReportsStatsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int cleaned = stats?.cleaned ?? 0;
+    int reported = stats?.reported ?? 0;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          'Nearby Reports',
-          style: TextStyle(
-            fontSize: 20,
-          ),
-        ),
-        SizedBox(
-          height: 15,
-        ),
         Container(
           // margin: const EdgeInsets.all(12),
           child: Row(
@@ -37,10 +30,10 @@ class ReportsStatsCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        stats.needHelp.toString(),
+                        cleaned.toString(),
                         style: TextStyle(fontSize: 24),
                       ),
-                      Text('need help'),
+                      Text('cleaned up'),
                     ],
                   ),
                 ),
@@ -53,10 +46,10 @@ class ReportsStatsCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        stats.cleanedUp.toString(),
+                        reported.toString(),
                         style: TextStyle(fontSize: 24),
                       ),
-                      Text('cleaned up')
+                      Text('reports')
                     ],
                   ),
                 ),
