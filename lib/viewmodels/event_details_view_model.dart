@@ -98,10 +98,12 @@ class EventDetailsViewModel extends BaseModel {
   }
 
   void markCleanedCallback({String reportUid}) {
+    setIsLoading(true);
     _firestoreService.markReportCleaned(
       reportUid: reportUid,
       userUid: _authenticationService.currentUser.uid,
     );
+    setIsLoading(false);
   }
 
   void navigateToReportsMapScreen() {
