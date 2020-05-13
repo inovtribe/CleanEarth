@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
 import 'package:timwan/ui/widgets/event_location_tile.dart';
 import 'package:timwan/ui/widgets/loading_button.dart';
@@ -72,7 +73,7 @@ class CreateEventScreen extends StatelessWidget {
                     minTime: DateTime.now(),
                     onConfirm: (date) => model.setTime(true, date));
               },
-              child: Text(model.startTime.toString()),
+              child: Text(_getDateTimeString(model.startTime)),
             ),
           ],
         ),
@@ -87,7 +88,7 @@ class CreateEventScreen extends StatelessWidget {
                     minTime: model.startTime,
                     onConfirm: (date) => model.setTime(false, date));
               },
-              child: Text(model.endTime.toString()),
+              child: Text(_getDateTimeString(model.endTime)),
             ),
           ],
         ),
@@ -138,5 +139,9 @@ class CreateEventScreen extends StatelessWidget {
         )
       ],
     );
+  }
+
+  String _getDateTimeString(DateTime dt) {
+    return DateFormat.yMEd().add_jm().format(dt);
   }
 }

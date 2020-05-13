@@ -21,6 +21,7 @@ dependencies:
   stacked: ^1.2.2
   get_it: ^3.0.0+1
   uuid: ^2.0.4
+  intl: ^0.16.1
   
   google_maps_flutter: ^0.5.22+1
   geoflutterfire: ^2.1.0
