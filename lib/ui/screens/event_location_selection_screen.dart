@@ -79,8 +79,9 @@ class _EventLocationSelectionScreenState
                     ),
                     child: Slider(
                       min: 0.1,
-                      max: 50,
+                      max: 50.1,
                       value: _value,
+                      divisions: 500,
                       label: '${_value.toStringAsFixed(2)} miles',
                       onChanged: (value) {
                         setState(() {
