@@ -35,7 +35,6 @@ class CreateEventViewModel extends BaseModel {
   Future createEvent({
     String title,
     String description,
-    double radius,
   }) async {
     setIsLoading(true);
     setErrors("");
@@ -60,6 +59,23 @@ class CreateEventViewModel extends BaseModel {
     } else {
       _navigationService.navigateTo(DashboardScreenRoute);
     }
+  }
+
+  void navigateToLocationSelection() async {
+    setIsLoading(true);
+    var result = await _navigationService.navigateTo(
+      EventLocationSelectionScreenRoute,
+      arguments: {
+        'latitude': _position.latitude,
+        'longitude': _position.longitude,
+        'radius': _radius,
+      },
+    );
+    if (result != null) {
+      _radius = result['radius'];
+      _position = GeoFirePoint(result['latitude'], result['longitude']);
+    }
+    setIsLoading(false);
   }
 
   void setTime(bool start, DateTime time) {

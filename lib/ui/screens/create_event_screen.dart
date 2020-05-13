@@ -9,9 +9,6 @@ class CreateEventScreen extends StatelessWidget {
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
 
-  // TODO: make new widget to select radius
-  final radiusController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<CreateEventViewModel>.reactive(
@@ -29,104 +26,117 @@ class CreateEventScreen extends StatelessWidget {
               color: Colors.black,
             ),
           ),
-          body: ListView(
-            padding: const EdgeInsets.only(
-              top: 30,
-              left: 30,
-              right: 30,
-            ),
-            children: <Widget>[
-              Text(
-                'Create Event',
-                style: TextStyle(fontSize: 24),
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  labelText: "Title",
-                ),
-                controller: titleController,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  labelText: "Description",
-                ),
-                controller: descriptionController,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  labelText: "Radius",
-                ),
-                controller: radiusController,
-                keyboardType: TextInputType.number,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Text('Start Time: '),
-                  FlatButton(
-                    onPressed: () {
-                      DatePicker.showDateTimePicker(context,
-                          currentTime: DateTime.now(),
-                          minTime: DateTime.now(),
-                          onConfirm: (date) => model.setTime(true, date));
-                    },
-                    child: Text(model.startTime.toString()),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Text('End Time: '),
-                  FlatButton(
-                    onPressed: () {
-                      DatePicker.showDateTimePicker(context,
-                          currentTime: DateTime.now(),
-                          minTime: model.startTime,
-                          onConfirm: (date) => model.setTime(false, date));
-                    },
-                    child: Text(model.endTime.toString()),
-                  ),
-                ],
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                child: Text(
-                  'Location',
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 200,
-                child: EventLocationTile(
-                  latitude: model.position.latitude,
-                  longitude: model.position.longitude,
-                  radius: model.radius,
-                ),
-              ),
-              Divider(
-                height: 24,
-              ),
-              LoadingButton(
-                title: "Submit",
-                isLoading: model.isLoading,
-                onPressed: () async {
-                  model.createEvent(
-                    title: titleController.text,
-                    description: descriptionController.text,
-                    radius: double.tryParse(radiusController.text) ?? 3,
-                  );
-                },
-              ),
-              SizedBox(
-                height: 25,
-              )
-            ],
-          ),
+          body: _buildBody(context, model),
         );
       },
+    );
+  }
+
+  Widget _buildBody(BuildContext context, CreateEventViewModel model) {
+    if (model.isLoading) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+    return ListView(
+      padding: const EdgeInsets.only(
+        top: 30,
+        left: 30,
+        right: 30,
+      ),
+      children: <Widget>[
+        Text(
+          'Create Event',
+          style: TextStyle(fontSize: 24),
+        ),
+        TextField(
+          decoration: InputDecoration(
+            labelText: "Title",
+          ),
+          controller: titleController,
+        ),
+        TextField(
+          decoration: InputDecoration(
+            labelText: "Description",
+          ),
+          controller: descriptionController,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Text('Start Time: '),
+            FlatButton(
+              onPressed: () {
+                DatePicker.showDateTimePicker(context,
+                    currentTime: DateTime.now(),
+                    minTime: DateTime.now(),
+                    onConfirm: (date) => model.setTime(true, date));
+              },
+              child: Text(model.startTime.toString()),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Text('End Time: '),
+            FlatButton(
+              onPressed: () {
+                DatePicker.showDateTimePicker(context,
+                    currentTime: DateTime.now(),
+                    minTime: model.startTime,
+                    onConfirm: (date) => model.setTime(false, date));
+              },
+              child: Text(model.endTime.toString()),
+            ),
+          ],
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          child: Text(
+            'Location',
+            style: TextStyle(
+              fontSize: 18,
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 200,
+          child: EventLocationTile(
+            latitude: model.position.latitude,
+            longitude: model.position.longitude,
+            radius: model.radius,
+          ),
+        ),
+        InkWell(
+          onTap: model.navigateToLocationSelection,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: <Widget>[
+                Icon(Icons.arrow_forward),
+                Text('Select New Location'),
+              ],
+            ),
+          ),
+        ),
+        Divider(
+          height: 24,
+        ),
+        LoadingButton(
+          title: "Submit",
+          isLoading: model.isLoading,
+          onPressed: () async {
+            model.createEvent(
+              title: titleController.text,
+              description: descriptionController.text,
+            );
+          },
+        ),
+        SizedBox(
+          height: 25,
+        )
+      ],
     );
   }
 }
