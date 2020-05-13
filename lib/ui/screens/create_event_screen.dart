@@ -61,6 +61,8 @@ class CreateEventScreen extends StatelessWidget {
             labelText: "Description",
           ),
           controller: descriptionController,
+          keyboardType: TextInputType.multiline,
+          maxLines: null,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
