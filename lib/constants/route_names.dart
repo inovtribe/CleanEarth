@@ -6,3 +6,4 @@ const String CreateReportScreenRoute = "CreateReportScreen";
 const String UserDetailsScreenRoute = "UserDetailsScreen";
 const String EventDetailsScreenRoute = "EventDetailsScreen";
 const String ReportsMapScreenRoute = "ReportsMapScreen";
+const String EventLocationSelectionScreenRoute = "EventLocationSelectionScreen";
