@@ -21,6 +21,10 @@ class CreateEventScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
+            title: Text(
+              'Create Report',
+              style: TextStyle(color: Colors.black),
+            ),
             backgroundColor: Colors.transparent,
             elevation: 0.0,
             iconTheme: IconThemeData(
@@ -41,15 +45,10 @@ class CreateEventScreen extends StatelessWidget {
     }
     return ListView(
       padding: const EdgeInsets.only(
-        top: 30,
         left: 30,
         right: 30,
       ),
       children: <Widget>[
-        Text(
-          'Create Event',
-          style: TextStyle(fontSize: 24),
-        ),
         TextField(
           decoration: InputDecoration(
             labelText: "Title",
