@@ -5,6 +5,7 @@ import 'package:timwan/ui/screens/create_event_screen.dart';
 import 'package:timwan/ui/screens/create_report_screen.dart';
 import 'package:timwan/ui/screens/dashboard_screen.dart';
 import 'package:timwan/ui/screens/event_details_screen.dart';
+import 'package:timwan/ui/screens/event_location_selection_screen.dart';
 import 'package:timwan/ui/screens/reports_map_screen.dart';
 import 'package:timwan/ui/screens/signin_screen.dart';
 import 'package:timwan/ui/screens/signup_screen.dart';
@@ -62,6 +63,16 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         viewToShow: ReportsMapScreen(
           reports: reports,
           onMarkCleaned: cb,
+        ),
+      );
+    case EventLocationSelectionScreenRoute:
+      var args = settings.arguments as Map<String, double>;
+      return _getPageRoute(
+        routeName: settings.name,
+        viewToShow: EventLocationSelectionScreen(
+          latitude: args['latitude'],
+          longitude: args['longitude'],
+          radius: args['radius'],
         ),
       );
     default:

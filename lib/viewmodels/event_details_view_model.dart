@@ -88,7 +88,7 @@ class EventDetailsViewModel extends BaseModel {
     if (reports != null) {
       ReportsStats newStats = ReportsStats(cleaned: 0, reported: 0);
       for (var report in reports) {
-        if (report.cleanerUid != null || report.cleanerUid.isNotEmpty) {
+        if (report.cleanerUid != null && report.cleanerUid.isNotEmpty) {
           newStats.cleaned++;
         }
         newStats.reported++;
@@ -98,10 +98,12 @@ class EventDetailsViewModel extends BaseModel {
   }
 
   void markCleanedCallback({String reportUid}) {
+    setIsLoading(true);
     _firestoreService.markReportCleaned(
       reportUid: reportUid,
       userUid: _authenticationService.currentUser.uid,
     );
+    setIsLoading(false);
   }
 
   void navigateToReportsMapScreen() {
