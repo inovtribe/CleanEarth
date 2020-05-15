@@ -117,6 +117,14 @@ class CreateReportScreen extends StatelessWidget {
                   Text('I cleaned it up!')
                 ],
               ),
+              if (model.hasErrors)
+                Text(
+                  model.errors,
+                  style: TextStyle(color: Colors.red),
+                ),
+              SizedBox(
+                height: 10,
+              ),
               Container(
                 width: 150,
                 child: LoadingButton(

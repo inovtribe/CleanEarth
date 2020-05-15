@@ -66,8 +66,8 @@ class CreateEventViewModel extends BaseModel {
     var result = await _navigationService.navigateTo(
       EventLocationSelectionScreenRoute,
       arguments: {
-        'latitude': _position.latitude,
-        'longitude': _position.longitude,
+        'latitude': _position?.latitude ?? 31,
+        'longitude': _position?.longitude ?? -100,
         'radius': _radius,
       },
     );
