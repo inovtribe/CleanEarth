@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:timwan/models/trash_report.dart';
@@ -32,8 +33,14 @@ class UserReportsScreen extends StatelessWidget {
             ),
             body: TabBarView(
               children: <Widget>[
-                _buildListView(model.isLoading, model.createdReports),
-                _buildListView(model.isLoading, model.cleanedReports),
+                _buildListView(
+                  model.isLoading,
+                  model.createdReports,
+                ),
+                _buildListView(
+                  model.isLoading,
+                  model.cleanedReports,
+                ),
               ],
             ),
           ),
@@ -58,8 +65,38 @@ class UserReportsScreen extends StatelessWidget {
     return ListView.builder(
       itemCount: reports.length,
       itemBuilder: (context, index) {
-        return Text(reports[index].tags.toString());
+        return _buildListTile(reports[index]);
       },
+    );
+  }
+
+  Widget _buildListTile(TrashReport report) {
+    return ListTile(
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: 15,
+        vertical: 10,
+      ),
+      onTap: () {},
+      leading: CachedNetworkImage(
+        imageUrl: report.imageData.imageUrl,
+        progressIndicatorBuilder: (_, __, progress) =>
+            CircularProgressIndicator(
+          value: progress.progress,
+        ),
+        errorWidget: (_, __, error) => Icon(Icons.error),
+      ),
+      title: Wrap(
+        runSpacing: 10.0,
+        spacing: 10.0,
+        children: <Widget>[
+          for (String tag in report.tags)
+            Chip(
+              label: Text(tag),
+              elevation: 5.0,
+              backgroundColor: Colors.green,
+            ),
+        ],
+      ),
     );
   }
 }
