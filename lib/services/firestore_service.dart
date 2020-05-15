@@ -246,7 +246,7 @@ class FirestoreService {
       if (eventUids.documents.isNotEmpty) {
         List<String> onlyUids = eventUids.documents
             .map(
-              (e) => e.data['event_uid'],
+              (e) => e.data['event_uid'].toString(),
             )
             .toList();
 
