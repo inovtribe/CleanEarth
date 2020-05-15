@@ -80,13 +80,16 @@ class DashboardScreen extends StatelessWidget {
                 ),
                 if (model.events != null && model.events.length > 0)
                   Container(
-                    height: 250,
+                    height: 150,
                     child: ListView.builder(
                       itemCount: model.events?.length ?? 0,
                       scrollDirection: Axis.horizontal,
                       itemExtent: 300,
                       itemBuilder: (context, index) {
                         return CleanupEventTile(
+                          distance: model.getDistance(
+                            model.events[index],
+                          ),
                           event: model.events[index],
                           onTap: () =>
                               model.navigateToEventDetails(model.events[index]),

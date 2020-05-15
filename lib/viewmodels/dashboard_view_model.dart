@@ -70,6 +70,13 @@ class DashboardViewModel extends BaseModel {
     });
   }
 
+  double getDistance(CleanupEvent event) {
+    return _locationService.getDistance(
+      latitude: event.position.latitude,
+      longitude: event.position.longitude,
+    );
+  }
+
   void markCleanedCallback({String reportUid}) {
     setIsLoading(true);
     _firestoreService.markReportCleaned(
