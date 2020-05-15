@@ -25,8 +25,8 @@ class FirestoreService {
   String field = 'position';
 
   StreamSubscription _nearbyReportsSubscription;
-  final StreamController<ReportsStats> _nearbyReportsStatsController =
-      StreamController<ReportsStats>.broadcast();
+  final StreamController<List<TrashReport>> _nearbyReportsController =
+      StreamController<List<TrashReport>>.broadcast();
 
   StreamSubscription _nearbyEventsSubscription;
   final StreamController<List<CleanupEvent>> _nearbyEventsController =
@@ -66,7 +66,7 @@ class FirestoreService {
     }
   }
 
-  Stream listenToNearbyEvents({
+  Stream<List<CleanupEvent>> listenToNearbyEvents({
     @required GeoFirePoint point,
     double radius = 50.0,
   }) {
@@ -92,10 +92,10 @@ class FirestoreService {
   }
 
   void cancelNearbyEventsSubscription() {
-    _nearbyEventsSubscription.cancel();
+    _nearbyEventsSubscription?.cancel();
   }
 
-  Stream listenToNearbyReportsStats({
+  Stream<List<TrashReport>> listenToNearbyReports({
     @required GeoFirePoint point,
     double radius = 25.0,
   }) {
@@ -110,34 +110,25 @@ class FirestoreService {
           )
           .listen((snapshot) {
         if (snapshot.isNotEmpty) {
-          var reports = snapshot.map((document) => TrashReport.fromJson(
-                document.data,
-                document.documentID,
-              ));
+          var reports = snapshot
+              .map((document) => TrashReport.fromJson(
+                    document.data,
+                    document.documentID,
+                  ))
+              .toList();
 
-          var stats = ReportsStats(
-            cleaned: 0,
-            reported: 0,
-          );
-          for (var report in reports) {
-            if (report.cleanerUid != null) {
-              stats.cleaned += 1;
-            }
-            stats.reported += 1;
-          }
-
-          _nearbyReportsStatsController.add(stats);
+          _nearbyReportsController.add(reports);
         }
       });
     } catch (e) {
       print(e.toString());
     }
 
-    return _nearbyReportsStatsController.stream;
+    return _nearbyReportsController.stream;
   }
 
-  void cancelNearbyStatsSubscription() {
-    _nearbyReportsSubscription.cancel();
+  void cancelNearbyReportsSubscription() {
+    _nearbyReportsSubscription?.cancel();
   }
 
   Future createUser(User user) async {
@@ -301,7 +292,7 @@ class FirestoreService {
     }
   }
 
-  Stream listenToReportsFromEvent({
+  Stream<List<TrashReport>> listenToReportsFromEvent({
     String eventUid,
   }) {
     try {
@@ -329,10 +320,10 @@ class FirestoreService {
   }
 
   void cancelReportsFromEventSubscription() {
-    _reportsFromEventSubscription.cancel();
+    _reportsFromEventSubscription?.cancel();
   }
 
-  Stream listenToVolunteersFromEvent({
+  Stream<List<User>> listenToVolunteersFromEvent({
     String eventUid,
   }) {
     try {
@@ -360,7 +351,7 @@ class FirestoreService {
   }
 
   void cancelVolunteerssFromEventSubscription() {
-    _volunteersFromEventSubscription.cancel();
+    _volunteersFromEventSubscription?.cancel();
   }
 
   Future isUserPartOfEvent({
