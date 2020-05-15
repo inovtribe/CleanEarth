@@ -26,4 +26,8 @@ class UserDetailsViewModel extends BaseModel {
   void navigateToCreateEvent() {
     _navigationService.navigateTo(CreateEventScreenRoute);
   }
+
+  void navigateToUserReportsScreen() {
+    _navigationService.navigateTo(UserReportsScreenRoute);
+  }
 }

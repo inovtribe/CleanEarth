@@ -18,36 +18,40 @@ class UserDetailsScreen extends StatelessWidget {
             ),
           ),
           backgroundColor: Colors.white,
-          body: Padding(
+          body: ListView(
             padding: const EdgeInsets.only(
-              top: 50,
-              left: 15,
-              right: 15.0,
+              top: 30,
+              left: 30,
+              right: 30,
             ),
-            child: Column(
-              children: <Widget>[
-                Text(
-                  'Hello, ${model.user?.fullName}',
-                  style: TextStyle(fontSize: 24),
+            children: <Widget>[
+              Text(
+                'Hello, ${model.user?.fullName}',
+                style: TextStyle(fontSize: 24),
+              ),
+              if (!model.isAnonymous())
+                ListTile(
+                  leading: Icon(Icons.add_circle),
+                  title: Text('Create Event'),
+                  onTap: model.navigateToCreateEvent,
                 ),
-                SizedBox(
-                  height: 15.0,
-                ),
-                if (!model.isAnonymous())
-                  LoadingButton(
-                    title: 'Create Event',
-                    onPressed: model.navigateToCreateEvent,
-                  ),
-                SizedBox(
-                  height: 15,
-                ),
-                LoadingButton(
-                  title: 'Sign Out',
-                  isLoading: model.isLoading,
-                  onPressed: model.signOut,
-                )
-              ],
-            ),
+              ListTile(
+                leading: Icon(Icons.report),
+                title: Text('View Your Reports'),
+                onTap: model.navigateToUserReportsScreen,
+              ),
+              ListTile(
+                leading: Icon(Icons.event),
+                title: Text('View Your Events'),
+                onTap: () {},
+              ),
+              ListTile(
+                leading: Icon(Icons.exit_to_app),
+                title: Text('Sign Out'),
+                enabled: !model.isLoading,
+                onTap: model.signOut,
+              )
+            ],
           ),
         );
       },
