@@ -21,27 +21,35 @@ class UserReportsScreen extends StatelessWidget {
     return ViewModelBuilder<UserReportsViewModel>.reactive(
       viewModelBuilder: () => UserReportsViewModel(),
       onModelReady: (model) => model.initilize(),
-      builder: (context, model, _) {
+      builder: (_, model, __) {
         return DefaultTabController(
           length: tabs.length,
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text('Reports'),
-              bottom: TabBar(
-                tabs: tabs,
+          child: Builder(
+            builder: (context) => Scaffold(
+              appBar: AppBar(
+                title: Text('Reports'),
+                bottom: TabBar(
+                  tabs: tabs,
+                ),
               ),
-            ),
-            body: TabBarView(
-              children: <Widget>[
-                _buildListView(
-                  model.isLoading,
-                  model.createdReports,
+              body: TabBarView(
+                children: <Widget>[
+                  _buildListView(
+                    model.isLoading,
+                    model.createdReports,
+                  ),
+                  _buildListView(
+                    model.isLoading,
+                    model.cleanedReports,
+                  ),
+                ],
+              ),
+              floatingActionButton: FloatingActionButton(
+                child: Icon(Icons.map),
+                onPressed: () => model.navigateToReportsMapScreen(
+                  DefaultTabController.of(context).index,
                 ),
-                _buildListView(
-                  model.isLoading,
-                  model.cleanedReports,
-                ),
-              ],
+              ),
             ),
           ),
         );

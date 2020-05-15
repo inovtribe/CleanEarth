@@ -1,13 +1,16 @@
+import 'package:timwan/constants/route_names.dart';
 import 'package:timwan/locator.dart';
 import 'package:timwan/models/trash_report.dart';
 import 'package:timwan/services/authentication_service.dart';
 import 'package:timwan/services/firestore_service.dart';
+import 'package:timwan/services/navigation_service.dart';
 import 'package:timwan/viewmodels/base_model.dart';
 
 class UserReportsViewModel extends BaseModel {
   final AuthenticationService _authenticationService =
       locator<AuthenticationService>();
   final FirestoreService _firestoreService = locator<FirestoreService>();
+  final NavigationService _navigationService = locator<NavigationService>();
 
   List<TrashReport> _createdReports;
   List<TrashReport> get createdReports => _createdReports;
@@ -34,5 +37,24 @@ class UserReportsViewModel extends BaseModel {
     if (results[1] is List) {
       _cleanedReports = results[1];
     }
+  }
+
+  void markCleanedCallback({String reportUid}) {
+    setIsLoading(true);
+    _firestoreService.markReportCleaned(
+      reportUid: reportUid,
+      userUid: _authenticationService.currentUser.uid,
+    );
+    setIsLoading(false);
+  }
+
+  void navigateToReportsMapScreen(int index) {
+    _navigationService.navigateTo(
+      ReportsMapScreenRoute,
+      arguments: {
+        'reports': index == 0 ? _createdReports : _cleanedReports,
+        'cb': markCleanedCallback,
+      },
+    );
   }
 }
