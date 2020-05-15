@@ -4,14 +4,14 @@ import 'package:timwan/models/cleanup_event.dart';
 
 class CleanupEventTile extends StatelessWidget {
   final CleanupEvent event;
-  final double distance;
+  final String distance;
   final Function onTap;
 
   const CleanupEventTile({
     Key key,
     @required this.event,
     @required this.onTap,
-    this.distance = 0,
+    this.distance = 'unknown',
   }) : super(key: key);
 
   @override
@@ -60,7 +60,7 @@ class CleanupEventTile extends StatelessWidget {
                   SizedBox(
                     width: 2,
                   ),
-                  Text("${distance.toStringAsFixed(2)} miles away"),
+                  Text("$distance miles away"),
                 ],
               ),
             ],

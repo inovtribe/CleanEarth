@@ -41,7 +41,7 @@ class UserEventsViewModel extends BaseModel {
     }
   }
 
-  double getDistance(CleanupEvent event) {
+  String getDistance(CleanupEvent event) {
     return _locationService.getDistance(
       latitude: event.position.latitude,
       longitude: event.position.longitude,

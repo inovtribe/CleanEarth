@@ -34,7 +34,8 @@ class DashboardViewModel extends BaseModel {
 
   Future initilize() async {
     _locationService.listenToUserLocation();
-    await Future.wait([listenToNearbyReports(), listenToNearbyEvents()]);
+    await listenToNearbyReports();
+    await listenToNearbyEvents();
   }
 
   Future listenToNearbyReports() async {
@@ -70,7 +71,7 @@ class DashboardViewModel extends BaseModel {
     });
   }
 
-  double getDistance(CleanupEvent event) {
+  String getDistance(CleanupEvent event) {
     return _locationService.getDistance(
       latitude: event.position.latitude,
       longitude: event.position.longitude,

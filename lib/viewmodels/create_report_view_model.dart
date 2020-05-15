@@ -59,37 +59,37 @@ class CreateReportViewModel extends BaseModel {
 
     // TODO: remove dependency on GeoFirePoint
     GeoFirePoint position = await _locationService.getUserLocation();
-    if (position == null) {
-      return;
-    }
-
-    var result = await _cloudStorageService.uploadImage(
-      image: image,
-      uid: _authenticationService.currentUser.uid,
-    );
-
-    if (result is ImageData) {
-      var report = TrashReport(
-        position: position,
-        tags: tags.map((tag) => tag.name).toList(),
-        createdAt: DateTime.now().toUtc(),
-        reporterUid: _authenticationService.currentUser.uid,
-        cleanerUid: _cleaned ? _authenticationService.currentUser.uid : null,
-        imageData: result,
-        eventUid: eventUid,
+    if (position != null) {
+      var result = await _cloudStorageService.uploadImage(
+        image: image,
+        uid: _authenticationService.currentUser.uid,
       );
 
-      var reportRes = await _firestoreService.createReport(report);
+      if (result is ImageData) {
+        var report = TrashReport(
+          position: position,
+          tags: tags.map((tag) => tag.name).toList(),
+          createdAt: DateTime.now().toUtc(),
+          reporterUid: _authenticationService.currentUser.uid,
+          cleanerUid: _cleaned ? _authenticationService.currentUser.uid : null,
+          imageData: result,
+          eventUid: eventUid,
+        );
 
-      if (reportRes is String) {
-        setErrors(reportRes);
-      } else {
-        if (eventUid != null && eventUid.isNotEmpty) {
-          _navigationService.pop();
+        var reportRes = await _firestoreService.createReport(report);
+
+        if (reportRes is String) {
+          setErrors(reportRes);
         } else {
-          _navigationService.navigateTo(DashboardScreenRoute);
+          if (eventUid != null && eventUid.isNotEmpty) {
+            _navigationService.pop();
+          } else {
+            _navigationService.navigateTo(DashboardScreenRoute);
+          }
         }
       }
+    } else {
+      setErrors("Location Permission not granted!");
     }
 
     setIsLoading(false);
