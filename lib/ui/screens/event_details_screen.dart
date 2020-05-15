@@ -16,7 +16,7 @@ class EventDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder.reactive(
+    return ViewModelBuilder<EventDetailsViewModel>.reactive(
       viewModelBuilder: () => EventDetailsViewModel(),
       onModelReady: (model) async => model.initilize(event.uid),
       builder: (context, model, _) {
