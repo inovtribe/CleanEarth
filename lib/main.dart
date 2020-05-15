@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Trash Cleanup App',
+      title: 'CleanEarth',
       navigatorKey: locator<NavigationService>().navigationKey,
       onGenerateRoute: generateRoute,
       debugShowCheckedModeBanner: false,
