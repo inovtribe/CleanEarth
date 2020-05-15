@@ -10,6 +10,7 @@ import 'package:timwan/ui/screens/reports_map_screen.dart';
 import 'package:timwan/ui/screens/signin_screen.dart';
 import 'package:timwan/ui/screens/signup_screen.dart';
 import 'package:timwan/ui/screens/user_details_screen.dart';
+import 'package:timwan/ui/screens/user_events_screen.dart';
 import 'package:timwan/ui/screens/user_reports_screen.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -80,6 +81,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
         routeName: settings.name,
         viewToShow: UserReportsScreen(),
+      );
+    case UserEventsScreenRoute:
+      return _getPageRoute(
+        routeName: settings.name,
+        viewToShow: UserEventsScreen(),
       );
     default:
       return MaterialPageRoute(

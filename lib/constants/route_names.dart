@@ -8,3 +8,4 @@ const String EventDetailsScreenRoute = "EventDetailsScreen";
 const String ReportsMapScreenRoute = "ReportsMapScreen";
 const String EventLocationSelectionScreenRoute = "EventLocationSelectionScreen";
 const String UserReportsScreenRoute = "UserReportsScreen";
+const String UserEventsScreenRoute = "UserEventsScreen";

@@ -42,7 +42,7 @@ class UserDetailsScreen extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.event),
                 title: Text('View Your Events'),
-                onTap: () {},
+                onTap: model.navigateToUserEventsScreen,
               ),
               ListTile(
                 leading: Icon(Icons.exit_to_app),
