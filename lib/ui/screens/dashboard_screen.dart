@@ -12,8 +12,7 @@ class DashboardScreen extends StatelessWidget {
       child: ViewModelBuilder<DashboardViewModel>.reactive(
         viewModelBuilder: () => DashboardViewModel(),
         onModelReady: (model) async {
-          await model.listenToNearbyReportsStats();
-          await model.listenToNearbyEvents();
+          await model.initilize();
         },
         builder: (context, model, child) {
           return Scaffold(
@@ -48,6 +47,25 @@ class DashboardScreen extends StatelessWidget {
                 ReportsStatsCard(
                   stats: model.stats,
                 ),
+                SizedBox(
+                  height: 5,
+                ),
+                InkWell(
+                  onTap: model.navigateToReportsMapScreen,
+                  child: Container(
+                    padding: const EdgeInsets.only(
+                      top: 5,
+                      bottom: 5,
+                      left: 3,
+                    ),
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.arrow_forward),
+                        Text('View Reports'),
+                      ],
+                    ),
+                  ),
+                ),
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 20),
                   child: Row(
@@ -62,13 +80,16 @@ class DashboardScreen extends StatelessWidget {
                 ),
                 if (model.events != null && model.events.length > 0)
                   Container(
-                    height: 250,
+                    height: 150,
                     child: ListView.builder(
                       itemCount: model.events?.length ?? 0,
                       scrollDirection: Axis.horizontal,
                       itemExtent: 300,
                       itemBuilder: (context, index) {
                         return CleanupEventTile(
+                          distance: model.getDistance(
+                            model.events[index],
+                          ),
                           event: model.events[index],
                           onTap: () =>
                               model.navigateToEventDetails(model.events[index]),

@@ -8,6 +8,7 @@ import 'package:timwan/models/user.dart';
 import 'package:timwan/services/authentication_service.dart';
 import 'package:timwan/services/firestore_service.dart';
 import 'package:timwan/services/navigation_service.dart';
+import 'package:timwan/utils.dart';
 import 'package:timwan/viewmodels/base_model.dart';
 
 class EventDetailsViewModel extends BaseModel {
@@ -44,7 +45,7 @@ class EventDetailsViewModel extends BaseModel {
         .listen((data) {
       if (data != null) {
         _reports = data;
-        calculateStats();
+        _stats = calculateStats(_reports);
         setIsLoading(false);
       }
     });
@@ -81,19 +82,6 @@ class EventDetailsViewModel extends BaseModel {
       );
       initilize(eventUid);
       setIsLoading(false);
-    }
-  }
-
-  void calculateStats() {
-    if (reports != null) {
-      ReportsStats newStats = ReportsStats(cleaned: 0, reported: 0);
-      for (var report in reports) {
-        if (report.cleanerUid != null && report.cleanerUid.isNotEmpty) {
-          newStats.cleaned++;
-        }
-        newStats.reported++;
-      }
-      _stats = newStats;
     }
   }
 

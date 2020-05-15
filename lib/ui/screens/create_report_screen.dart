@@ -22,118 +22,112 @@ class CreateReportScreen extends StatelessWidget {
           backgroundColor: Colors.white,
           appBar: AppBar(
             backgroundColor: Colors.transparent,
+            title: Text(
+              'Submit Report',
+              style: TextStyle(color: Colors.black),
+            ),
             elevation: 0.0,
             iconTheme: IconThemeData(
               color: Colors.black,
             ),
           ),
-          body: Padding(
+          body: ListView(
             padding: const EdgeInsets.only(
-              top: 30.0,
-              left: 15,
-              right: 15,
+              top: 15,
+              left: 30,
+              right: 30,
             ),
-            child: ListView(
-              children: <Widget>[
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  child: Text(
-                    "Submit Report",
-                    style: TextStyle(fontSize: 24),
+            children: <Widget>[
+              FlutterTagging<TrashTag>(
+                initialItems: model.tags,
+                textFieldConfiguration: TextFieldConfiguration(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    filled: true,
+                    labelText: 'Select Tags',
+                    hintText: 'Search Tags',
                   ),
                 ),
-                FlutterTagging<TrashTag>(
-                  initialItems: model.tags,
-                  textFieldConfiguration: TextFieldConfiguration(
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      filled: true,
-                      labelText: 'Select Tags',
-                      hintText: 'Search Tags',
-                    ),
-                  ),
-                  additionCallback: (value) =>
-                      TrashTag(name: value, position: 0),
-                  configureChip: (tag) {
-                    return ChipConfiguration(
-                      label: Text('#${tag.name}'),
-                      backgroundColor: Colors.green,
-                      labelStyle: TextStyle(color: Colors.white),
-                      deleteIconColor: Colors.white,
-                    );
-                  },
-                  configureSuggestion: (tag) {
-                    return SuggestionConfiguration(
-                      title: Text(tag.name),
-                      additionWidget: Chip(
-                        avatar: Icon(
-                          Icons.add_circle,
-                          color: Colors.white,
-                        ),
-                        label: Text('Add New Tag'),
-                        labelStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w300,
-                        ),
-                        backgroundColor: Colors.green,
+                additionCallback: (value) => TrashTag(name: value, position: 0),
+                configureChip: (tag) {
+                  return ChipConfiguration(
+                    label: Text('#${tag.name}'),
+                    backgroundColor: Colors.green,
+                    labelStyle: TextStyle(color: Colors.white),
+                    deleteIconColor: Colors.white,
+                  );
+                },
+                configureSuggestion: (tag) {
+                  return SuggestionConfiguration(
+                    title: Text(tag.name),
+                    additionWidget: Chip(
+                      avatar: Icon(
+                        Icons.add_circle,
+                        color: Colors.white,
                       ),
-                    );
-                  },
-                  findSuggestions: model.findSuggestions,
-                ),
-                Container(
-                  height: 180.0,
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  child: model.image == null
-                      ? Column(
-                          children: <Widget>[
-                            Icon(
-                              Icons.error,
-                              size: 90.0,
-                            ),
-                            Text('Choose a image'),
-                          ],
-                        )
-                      : Image.file(
-                          model.image,
-                          fit: BoxFit.scaleDown,
-                        ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    IconButton(
-                      onPressed: model.selectImageFromGallery,
-                      icon: Icon(Icons.photo_library),
+                      label: Text('Add New Tag'),
+                      labelStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w300,
+                      ),
+                      backgroundColor: Colors.green,
                     ),
-                    IconButton(
-                      onPressed: model.selectImageFromCamera,
-                      icon: Icon(Icons.camera_alt),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Checkbox(
-                      value: model.cleaned ?? false,
-                      onChanged: model.changeCleanStatus,
-                    ),
-                    Text('I cleaned it up!')
-                  ],
-                ),
-                Container(
-                  width: 150,
-                  child: LoadingButton(
-                    title: "Submit",
-                    isLoading: model.isLoading,
-                    onPressed: () => model.createReport(
-                      eventUid: eventUid,
-                    ),
+                  );
+                },
+                findSuggestions: model.findSuggestions,
+              ),
+              Container(
+                height: 180.0,
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                child: model.image == null
+                    ? Column(
+                        children: <Widget>[
+                          Icon(
+                            Icons.error,
+                            size: 90.0,
+                          ),
+                          Text('Choose a image'),
+                        ],
+                      )
+                    : Image.file(
+                        model.image,
+                        fit: BoxFit.scaleDown,
+                      ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  IconButton(
+                    onPressed: model.selectImageFromGallery,
+                    icon: Icon(Icons.photo_library),
                   ),
-                )
-              ],
-            ),
+                  IconButton(
+                    onPressed: model.selectImageFromCamera,
+                    icon: Icon(Icons.camera_alt),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Checkbox(
+                    value: model.cleaned ?? false,
+                    onChanged: model.changeCleanStatus,
+                  ),
+                  Text('I cleaned it up!')
+                ],
+              ),
+              Container(
+                width: 150,
+                child: LoadingButton(
+                  title: "Submit",
+                  isLoading: model.isLoading,
+                  onPressed: () => model.createReport(
+                    eventUid: eventUid,
+                  ),
+                ),
+              )
+            ],
           ),
         );
       },

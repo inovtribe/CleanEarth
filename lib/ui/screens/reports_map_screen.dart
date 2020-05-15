@@ -50,6 +50,7 @@ class ReportsMapScreen extends StatelessWidget {
   }
 
   Set<Marker> _createMarkers() {
+    if (reports == null) return <Marker>[].toSet();
     return reports
         .map((e) => Marker(
             markerId: MarkerId(e.hashCode.toString()),
