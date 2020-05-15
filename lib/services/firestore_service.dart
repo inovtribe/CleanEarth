@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:timwan/models/cleanup_event.dart';
-import 'package:timwan/models/reports_stats.dart';
 import 'package:timwan/models/trash_report.dart';
 import 'package:timwan/models/user.dart';
 
