@@ -22,7 +22,7 @@ class CreateEventScreen extends StatelessWidget {
           backgroundColor: Colors.white,
           appBar: AppBar(
             title: Text(
-              'Create Report',
+              'Create Event',
               style: TextStyle(color: Colors.black),
             ),
             backgroundColor: Colors.transparent,
