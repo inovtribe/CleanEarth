@@ -20,4 +20,14 @@ class LocationService {
 
     return _currentLocation;
   }
+
+  double getDistance({
+    double latitude,
+    double longitude,
+  }) {
+    return _currentLocation.distance(
+      lat: latitude,
+      lng: longitude,
+    );
+  }
 }
