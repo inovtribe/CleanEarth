@@ -32,13 +32,23 @@ class CreateReportViewModel extends BaseModel {
 
   Future selectImageFromCamera() async {
     setIsLoading(true);
-    image = await _imagePickerService.selectImageFromCamera();
+    setErrors("");
+    try {
+      image = await _imagePickerService.selectImageFromCamera();
+    } catch (e) {
+      setErrors("Image couldn't be captured!");
+    }
     setIsLoading(false);
   }
 
   Future selectImageFromGallery() async {
     setIsLoading(true);
-    image = await _imagePickerService.selectImageFromGallery();
+    setErrors("");
+    try {
+      image = await _imagePickerService.selectImageFromGallery();
+    } catch (e) {
+      setErrors("Image couldn't be loaded, check gallery permissions!");
+    }
     setIsLoading(false);
   }
 
@@ -87,6 +97,8 @@ class CreateReportViewModel extends BaseModel {
             _navigationService.navigateTo(DashboardScreenRoute);
           }
         }
+      } else {
+        setErrors("Image couldn't be loaded");
       }
     } else {
       setErrors("Location Permission not granted!");
