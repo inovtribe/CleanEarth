@@ -3,6 +3,7 @@ import 'package:timwan/locator.dart';
 import 'package:timwan/models/cleanup_event.dart';
 import 'package:timwan/services/authentication_service.dart';
 import 'package:timwan/services/firestore_service.dart';
+import 'package:timwan/services/location_service.dart';
 import 'package:timwan/services/navigation_service.dart';
 import 'package:timwan/viewmodels/base_model.dart';
 
@@ -11,6 +12,7 @@ class UserEventsViewModel extends BaseModel {
       locator<AuthenticationService>();
   final FirestoreService _firestoreService = locator<FirestoreService>();
   final NavigationService _navigationService = locator<NavigationService>();
+  final LocationService _locationService = locator<LocationService>();
 
   List<CleanupEvent> _createdEvents;
   List<CleanupEvent> get createdEvents => _createdEvents;
@@ -37,6 +39,13 @@ class UserEventsViewModel extends BaseModel {
     if (results[1] is List) {
       _volunteeredEvents = results[1];
     }
+  }
+
+  double getDistance(CleanupEvent event) {
+    return _locationService.getDistance(
+      latitude: event.position.latitude,
+      longitude: event.position.longitude,
+    );
   }
 
   void navigateToEvent(CleanupEvent _event) {

@@ -57,11 +57,13 @@ class UserEventsScreen extends StatelessWidget {
     }
 
     return ListView.builder(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       itemCount: events.length,
       itemBuilder: (context, index) {
         return CleanupEventTile(
           event: events[index],
           onTap: () => model.navigateToEvent(events[index]),
+          distance: model.getDistance(events[index]),
         );
       },
     );
