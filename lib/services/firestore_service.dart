@@ -165,6 +165,112 @@ class FirestoreService {
     }
   }
 
+  Future getUsersReports({String uid}) async {
+    try {
+      var reports = await _reportsCollectionRef
+          .where(
+            'reporter_uid',
+            isEqualTo: uid,
+          )
+          .getDocuments();
+
+      if (reports.documents.isNotEmpty) {
+        return reports.documents
+            .map(
+              (snapshot) => TrashReport.fromJson(
+                snapshot.data,
+                snapshot.documentID,
+              ),
+            )
+            .toList();
+      }
+    } catch (e) {
+      return e.message;
+    }
+  }
+
+  Future getUsersCleanedReports({String uid}) async {
+    try {
+      var reports = await _reportsCollectionRef
+          .where(
+            'cleaner_uid',
+            isEqualTo: uid,
+          )
+          .getDocuments();
+
+      if (reports.documents.isNotEmpty) {
+        return reports.documents
+            .map(
+              (snapshot) => TrashReport.fromJson(
+                snapshot.data,
+                snapshot.documentID,
+              ),
+            )
+            .toList();
+      }
+    } catch (e) {
+      return e.message;
+    }
+  }
+
+  Future getUsersCreatedEvents({String uid}) async {
+    try {
+      var events = await _eventsCollectionRef
+          .where('owner.uid', isEqualTo: uid)
+          .getDocuments();
+
+      if (events.documents.isNotEmpty) {
+        return events.documents
+            .map(
+              (snapshot) => CleanupEvent.fromJson(
+                snapshot.data,
+                snapshot.documentID,
+              ),
+            )
+            .toList();
+      }
+    } catch (e) {
+      return e.message;
+    }
+  }
+
+  Future getUsersVolunteeredEvents({String uid}) async {
+    try {
+      var eventUids = await _volunteersCollectionRef
+          .where(
+            'user_uid',
+            isEqualTo: uid,
+          )
+          .getDocuments();
+
+      if (eventUids.documents.isNotEmpty) {
+        List<String> onlyUids = eventUids.documents
+            .map(
+              (e) => e.data['event_uid'].toString(),
+            )
+            .toList();
+
+        // resolved all promises of `onlyUids`
+        var events = await Future.wait(
+          onlyUids.map((e) => _eventsCollectionRef.document(e).get()),
+        );
+
+        if (events.isNotEmpty) {
+          return events
+              .map(
+                (snapshot) => CleanupEvent.fromJson(
+                  snapshot.data,
+                  snapshot.documentID,
+                ),
+              )
+              .toList();
+        }
+      }
+    } catch (e) {
+      return e.message;
+    }
+  }
+
   Future addUserToEvent({
     String eventUid,
     String userUid,
