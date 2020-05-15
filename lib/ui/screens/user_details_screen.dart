@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:timwan/ui/widgets/loading_button.dart';
 import 'package:timwan/viewmodels/user_details_view_model.dart';
 
 class UserDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder.reactive(
+    return ViewModelBuilder<UserDetailsViewModel>.reactive(
       viewModelBuilder: () => UserDetailsViewModel(),
       builder: (context, model, _) {
         return Scaffold(
