@@ -106,8 +106,8 @@ class EventDetailsViewModel extends BaseModel {
 
   @override
   void dispose() {
-    _eventStreamSubscription.cancel();
-    _volunteersStreamSubscription.cancel();
+    _eventStreamSubscription?.cancel();
+    _volunteersStreamSubscription?.cancel();
     _firestoreService.cancelReportsFromEventSubscription();
     _firestoreService.cancelVolunteerssFromEventSubscription();
     super.dispose();

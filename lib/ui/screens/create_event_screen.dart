@@ -105,8 +105,8 @@ class CreateEventScreen extends StatelessWidget {
         SizedBox(
           height: 200,
           child: EventLocationTile(
-            latitude: model.position.latitude,
-            longitude: model.position.longitude,
+            latitude: model.position?.latitude ?? 31,
+            longitude: model.position?.longitude ?? -100,
             radius: model.radius,
           ),
         ),

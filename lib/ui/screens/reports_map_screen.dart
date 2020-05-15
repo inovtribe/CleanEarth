@@ -53,7 +53,7 @@ class ReportsMapScreen extends StatelessWidget {
     if (reports == null) return <Marker>[].toSet();
     return reports
         .map((e) => Marker(
-            markerId: MarkerId(e.hashCode.toString()),
+            markerId: MarkerId(e.uid),
             infoWindow: InfoWindow(
               title: e.tags.toString(),
               snippet: (e.cleanerUid == null || e.cleanerUid.isEmpty)
@@ -65,7 +65,7 @@ class ReportsMapScreen extends StatelessWidget {
               },
             ),
             icon: BitmapDescriptor.defaultMarkerWithHue(
-              e.cleanerUid == null || e.cleanerUid.isEmpty
+              (e.cleanerUid == null || e.cleanerUid.isEmpty)
                   ? BitmapDescriptor.hueRed
                   : BitmapDescriptor.hueGreen,
             ),

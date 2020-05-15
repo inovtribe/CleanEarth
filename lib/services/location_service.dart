@@ -12,16 +12,14 @@ class LocationService {
   Location location = new Location();
 
   Future<GeoFirePoint> getUserLocation() async {
-    if (_currentLocation == null) {
-      try {
-        LocationData _locationData = await location.getLocation();
-        _currentLocation = GeoFirePoint(
-          _locationData.latitude,
-          _locationData.longitude,
-        );
-      } catch (e) {
-        print('Could not get location: ${e.toString()}');
-      }
+    try {
+      LocationData _locationData = await location.getLocation();
+      _currentLocation = GeoFirePoint(
+        _locationData.latitude,
+        _locationData.longitude,
+      );
+    } catch (e) {
+      print('Could not get location: ${e.toString()}');
     }
     return _currentLocation;
   }
@@ -51,13 +49,16 @@ class LocationService {
     }
   }
 
-  double getDistance({
+  String getDistance({
     double latitude,
     double longitude,
   }) {
-    return _currentLocation.distance(
-      lat: latitude,
-      lng: longitude,
-    );
+    if (_currentLocation == null) return 'unknown';
+    return _currentLocation
+        .distance(
+          lat: latitude,
+          lng: longitude,
+        )
+        .toStringAsFixed(2);
   }
 }
