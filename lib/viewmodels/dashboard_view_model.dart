@@ -98,8 +98,8 @@ class DashboardViewModel extends BaseModel {
 
   @override
   void dispose() {
-    _eventsStreamSubscription.cancel();
-    _reportsStreamSubscription.cancel();
+    _eventsStreamSubscription?.cancel();
+    _reportsStreamSubscription?.cancel();
     _firestoreService.cancelNearbyEventsSubscription();
     _firestoreService.cancelNearbyReportsSubscription();
     _locationService.cancelLocationStream();
