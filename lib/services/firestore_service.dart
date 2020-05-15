@@ -213,6 +213,64 @@ class FirestoreService {
     }
   }
 
+  Future getUsersCreatedEvents({String uid}) async {
+    try {
+      var events = await _eventsCollectionRef
+          .where('owner.uid', isEqualTo: uid)
+          .getDocuments();
+
+      if (events.documents.isNotEmpty) {
+        return events.documents
+            .map(
+              (snapshot) => CleanupEvent.fromJson(
+                snapshot.data,
+                snapshot.documentID,
+              ),
+            )
+            .toList();
+      }
+    } catch (e) {
+      return e.message;
+    }
+  }
+
+  Future getUsersVolunteeredEvents({String uid}) async {
+    try {
+      var eventUids = await _volunteersCollectionRef
+          .where(
+            'user_uid',
+            isEqualTo: uid,
+          )
+          .getDocuments();
+
+      if (eventUids.documents.isNotEmpty) {
+        List<String> onlyUids = eventUids.documents
+            .map(
+              (e) => e.data['event_uid'],
+            )
+            .toList();
+
+        // resolved all promises of `onlyUids`
+        var events = await Future.wait(
+          onlyUids.map((e) => _eventsCollectionRef.document(e).get()),
+        );
+
+        if (events.isNotEmpty) {
+          return events
+              .map(
+                (snapshot) => CleanupEvent.fromJson(
+                  snapshot.data,
+                  snapshot.documentID,
+                ),
+              )
+              .toList();
+        }
+      }
+    } catch (e) {
+      return e.message;
+    }
+  }
+
   Future addUserToEvent({
     String eventUid,
     String userUid,
