@@ -1,13 +1,16 @@
+import 'package:timwan/constants/route_names.dart';
 import 'package:timwan/locator.dart';
 import 'package:timwan/models/cleanup_event.dart';
 import 'package:timwan/services/authentication_service.dart';
 import 'package:timwan/services/firestore_service.dart';
+import 'package:timwan/services/navigation_service.dart';
 import 'package:timwan/viewmodels/base_model.dart';
 
 class UserEventsViewModel extends BaseModel {
   final AuthenticationService _authenticationService =
       locator<AuthenticationService>();
   final FirestoreService _firestoreService = locator<FirestoreService>();
+  final NavigationService _navigationService = locator<NavigationService>();
 
   List<CleanupEvent> _createdEvents;
   List<CleanupEvent> get createdEvents => _createdEvents;
@@ -34,5 +37,12 @@ class UserEventsViewModel extends BaseModel {
     if (results[1] is List) {
       _volunteeredEvents = results[1];
     }
+  }
+
+  void navigateToEvent(CleanupEvent _event) {
+    _navigationService.navigateTo(
+      EventDetailsScreenRoute,
+      arguments: _event,
+    );
   }
 }

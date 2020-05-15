@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:timwan/models/cleanup_event.dart';
+import 'package:timwan/ui/widgets/cleanup_event_tile.dart';
 import 'package:timwan/viewmodels/user_events_view_model.dart';
 
 class UserEventsScreen extends StatelessWidget {
@@ -32,8 +33,8 @@ class UserEventsScreen extends StatelessWidget {
             ),
             body: TabBarView(
               children: <Widget>[
-                _buildListView(model.isLoading, model.createdEvents),
-                _buildListView(model.isLoading, model.volunteeredEvents),
+                _buildListView(model, model.createdEvents),
+                _buildListView(model, model.volunteeredEvents),
               ],
             ),
           ),
@@ -42,8 +43,8 @@ class UserEventsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildListView(bool isLoading, List<CleanupEvent> events) {
-    if (isLoading) {
+  Widget _buildListView(UserEventsViewModel model, List<CleanupEvent> events) {
+    if (model.isLoading) {
       return Center(
         child: CircularProgressIndicator(),
       );
@@ -58,7 +59,10 @@ class UserEventsScreen extends StatelessWidget {
     return ListView.builder(
       itemCount: events.length,
       itemBuilder: (context, index) {
-        return Text('$index');
+        return CleanupEventTile(
+          event: events[index],
+          onTap: () => model.navigateToEvent(events[index]),
+        );
       },
     );
   }
