@@ -165,6 +165,54 @@ class FirestoreService {
     }
   }
 
+  Future getUsersReports({String uid}) async {
+    try {
+      var reports = await _reportsCollectionRef
+          .where(
+            'reporter_uid',
+            isEqualTo: uid,
+          )
+          .getDocuments();
+
+      if (reports.documents.isNotEmpty) {
+        return reports.documents
+            .map(
+              (snapshot) => TrashReport.fromJson(
+                snapshot.data,
+                snapshot.documentID,
+              ),
+            )
+            .toList();
+      }
+    } catch (e) {
+      return e.message;
+    }
+  }
+
+  Future getUsersCleanedReports({String uid}) async {
+    try {
+      var reports = await _reportsCollectionRef
+          .where(
+            'cleaner_uid',
+            isEqualTo: uid,
+          )
+          .getDocuments();
+
+      if (reports.documents.isNotEmpty) {
+        return reports.documents
+            .map(
+              (snapshot) => TrashReport.fromJson(
+                snapshot.data,
+                snapshot.documentID,
+              ),
+            )
+            .toList();
+      }
+    } catch (e) {
+      return e.message;
+    }
+  }
+
   Future addUserToEvent({
     String eventUid,
     String userUid,
